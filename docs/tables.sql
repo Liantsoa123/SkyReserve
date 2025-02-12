@@ -2,6 +2,7 @@ CREATE TABLE _user_(
    user_id SERIAL,
    name VARCHAR(250)  NOT NULL,
    role VARCHAR(250)  NOT NULL,
+   password VARCHAR(250)  NOT NULL,
    PRIMARY KEY(user_id)
 );
 
