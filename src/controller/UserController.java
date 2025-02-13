@@ -1,5 +1,6 @@
 package controller;
 
+import dao.CityDAO;
 import dao.UserDAO;
 import mg.noobframework.annotation.Controller;
 import mg.noobframework.annotation.Get;
@@ -31,7 +32,8 @@ public class UserController {
             mysession.add("actif", user);
             mysession.add("roles", user.getRole());
             mysession.add("user", user);
-            mv.setUrl("home.jsp");
+            mv.add("cities", CityDAO.findAll());
+            mv.setUrl("insertFlight.jsp");
         } else {
             mv.add("name", name);
             mv.add("password", password);
