@@ -32,6 +32,7 @@ public class UserController {
             mysession.add("actif", user);
             mysession.add("roles", user.getRole());
             mysession.add("user", user);
+            mv.add("cities", CityDAO.findAll());
             mv.setUrl("insertFlight.jsp");
         } else {
             mv.add("name", name);
