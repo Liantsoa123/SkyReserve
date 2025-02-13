@@ -1,12 +1,19 @@
 package model;
 
+import mg.noobframework.annotation.Required;
+
 import java.sql.Timestamp;
 
 public class Flight {
+
     private int flight_id;
+    @Required
     private Timestamp departure_date;
+    @Required
     private Timestamp arrival_date;
+    @Required
     private City departure_city;
+    @Required
     private City arrival_city;
 
     public Flight() {
