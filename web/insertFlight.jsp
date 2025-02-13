@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.City" %>
+<%@ page import="java.util.HashMap" %>
 <%
     List<City> cities = (List<City>) request.getAttribute("cities");
-
+    HashMap<String , String> error = new HashMap<String , String>();
+    if(request.getAttribute("error") != null){
+        error = (HashMap<String , String>) request.getAttribute("error");
+    }
 %>
 
 <!DOCTYPE html>
@@ -25,8 +29,8 @@
     <form action="./insertFlight" method="post">
         <input type="hidden" name="Flight.flight_id" value="1">
 
-        <% if (request.getParameter("departure_city")!=null) {%>
-            <div class="error-message"> <%=request.getParameter("departure_city")%> </div>
+        <% if (error.get("departure_city")!=null) {%>
+            <div class="error-message"> <%=error.get("departure_city")%> </div>
         <% } %>
         <div class="form-group">
             <label for="departureCity">Ville de départ:</label>
@@ -39,8 +43,8 @@
             </select>
         </div>
 
-        <% if (request.getParameter("arrival_city")!=null) {%>
-        <div class="error"> <%=request.getParameter("arrival_city")%> </div>
+        <% if (error.get("arrival_city")!=null) {%>
+        <div class="error"> <%=error.get("arrival_city")%> </div>
         <% } %>
         <div class="form-group">
             <label for="arrivalCity">Ville d'arrivée:</label>
@@ -53,16 +57,16 @@
             </select>
         </div>
 
-        <% if (request.getParameter("departure_date")!=null) {%>
-        <div class="error"> <%=request.getParameter("departure_date")%> </div>
+        <% if (error.get("departure_date")!=null) {%>
+        <div class="error"> <%=error.get("departure_date")%> </div>
         <% } %>
         <div class="form-group">
             <label for="departureDate">Date et heure de départ:</label>
             <input type="datetime-local" id="departureDate" name="Flight.departure_date">
         </div>
 
-        <% if (request.getParameter("arrival_date")!=null) {%>
-        <div class="error"> <%=request.getParameter("arrival_date")%> </div>
+        <% if (error.get("arrival_date")!=null) {%>
+        <div class="error"> <%=error.get("arrival_date")%> </div>
         <% } %>
         <div class="form-group">
             <label for="arrivalDate">Date et heure d'arrivée:</label>
