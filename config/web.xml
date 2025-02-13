@@ -9,6 +9,12 @@
         <servlet-name>dispatcherServlet</servlet-name>
         <servlet-class>mg.noobframework.controller.FrontController</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <!--Project name-->
+        <init-param>
+            <param-name>project_name</param-name>
+            <param-value>SkyReserve</param-value>
+        </init-param>
+        <!-- Controller package name-->
         <init-param>
             <param-name>controller_dir</param-name>
             <param-value>controller</param-value>
@@ -23,11 +29,17 @@
             <param-name>roles_name</param-name>
             <param-value>roles</param-value>
         </init-param>
+
     </servlet>
 
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/assets/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
