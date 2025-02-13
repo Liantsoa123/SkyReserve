@@ -26,13 +26,17 @@ public class UserController {
     public Modelview login(@RequestParam("name") String name, @RequestParam("password") String password,
             Mysession mysession) throws Exception {
         Modelview mv = new Modelview();
-        mv.setUrl("home.jsp");
         User user = UserDAO.login(name, password);
         if (user != null) {
             mysession.add("actif", user);
             mysession.add("roles", user.getRole());
             mysession.add("user", user);
+            mv.setUrl("home.jsp");
         } else {
+            mv.add("name", name);
+            mv.add("password", password);
+            mv.add("error", "Invalid login or password");
+            mv.setUrl("login.jsp");
             mv.add("url", "/showlogin");
         }
         return mv;
