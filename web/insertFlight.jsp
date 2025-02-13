@@ -3,7 +3,7 @@
 <%@ page import="model.City" %>
 <%
     List<City> cities = (List<City>) request.getAttribute("cities");
-    String error = (String) request.getAttribute("error");
+
 %>
 
 <!DOCTYPE html>
@@ -17,48 +17,60 @@
 </head>
 <body>
 
-<jsp:include page="components/navbar.jsp" />
+<jsp:include page="components/navbar.jsp"/>
 
 <div class="container">
     <h2>Ajouter un Nouveau Vol</h2>
 
-    <% if (error != null) { %>
-    <div class="error-message"><%= error %></div>
-    <% } %>
+    <form action="./insertFlight" method="post">
+        <input type="hidden" name="Flight.flight_id" value="1">
 
-    <form action="#" method="post">
+        <% if (request.getParameter("departure_city")!=null) {%>
+            <div class="error-message"> <%=request.getParameter("departure_city")%> </div>
+        <% } %>
         <div class="form-group">
             <label for="departureCity">Ville de départ:</label>
-            <select name="departureCity" id="departureCity" required>
+            <select name="Flight.departure_city" id="departureCity">
                 <option value="">Sélectionner une ville</option>
                 <% if (cities != null) for (City city : cities) { %>
-                <option value="<%= city.getCity_id() %>"><%= city.getCity_name() %></option>
+                <option value="<%= city.getCity_id() %>"><%= city.getCity_name() %>
+                </option>
                 <% } %>
             </select>
         </div>
 
+        <% if (request.getParameter("arrival_city")!=null) {%>
+        <div class="error"> <%=request.getParameter("arrival_city")%> </div>
+        <% } %>
         <div class="form-group">
             <label for="arrivalCity">Ville d'arrivée:</label>
-            <select name="arrivalCity" id="arrivalCity" required>
+            <select name="Flight.arrival_city" id="arrivalCity">
                 <option value="">Sélectionner une ville</option>
                 <% if (cities != null) for (City city : cities) { %>
-                <option value="<%= city.getCity_id() %>"><%= city.getCity_name() %></option>
+                <option value="<%= city.getCity_id() %>"><%= city.getCity_name() %>
+                </option>
                 <% } %>
             </select>
         </div>
 
+        <% if (request.getParameter("departure_date")!=null) {%>
+        <div class="error"> <%=request.getParameter("departure_date")%> </div>
+        <% } %>
         <div class="form-group">
             <label for="departureDate">Date et heure de départ:</label>
-            <input type="datetime-local" id="departureDate" name="departureDate" required>
+            <input type="datetime-local" id="departureDate" name="Flight.departure_date">
         </div>
 
+        <% if (request.getParameter("arrival_date")!=null) {%>
+        <div class="error"> <%=request.getParameter("arrival_date")%> </div>
+        <% } %>
         <div class="form-group">
             <label for="arrivalDate">Date et heure d'arrivée:</label>
-            <input type="datetime-local" id="arrivalDate" name="arrivalDate" required>
+            <input type="datetime-local" id="arrivalDate" name="Flight.arrival_date">
         </div>
 
         <div class="form-actions">
-            <button type="button" class="btn-secondary" onclick="window.location.href='./flights'">
+            <button type="button" class="btn-secondary" onclick="window.location.href='#'">
                 <i class="fas fa-times"></i> Annuler
             </button>
             <button type="submit" class="btn-primary">
