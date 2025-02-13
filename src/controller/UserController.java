@@ -2,6 +2,7 @@ package controller;
 
 import dao.UserDAO;
 import mg.noobframework.annotation.Controller;
+import mg.noobframework.annotation.Get;
 import mg.noobframework.annotation.Post;
 import mg.noobframework.annotation.RequestParam;
 import mg.noobframework.annotation.Url;
@@ -11,6 +12,14 @@ import model.User;
 
 @Controller
 public class UserController {
+
+    @Get
+    @Url("/showlogin")
+    public Modelview showlogin() {
+        Modelview mv = new Modelview();
+        mv.setUrl("login.jsp");
+        return mv;
+    }
 
     @Post
     @Url("/login")
@@ -24,7 +33,7 @@ public class UserController {
             mysession.add("roles", user.getRole());
             mysession.add("user", user);
         } else {
-            mv.add("url", "login.jsp");
+            mv.add("url", "/showlogin");
         }
         return mv;
     }
