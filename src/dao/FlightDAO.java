@@ -61,10 +61,7 @@ public class FlightDAO {
         ConnectionBdd connectionBdd = new ConnectionBdd();
         List<Flight> flights = new ArrayList<>();
 
-        String query = "SELECT f.*, " +
-                "dc.city_id as dep_city_id, dc.name as dep_city_name, " +
-                "ac.city_id as arr_city_id, ac.name as arr_city_name " +
-                "FROM flight f ";
+        String query = "SELECT * FROM flight";
 
         try (Connection conn = connectionBdd.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query);
