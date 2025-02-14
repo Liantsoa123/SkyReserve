@@ -25,7 +25,44 @@
 <div class="container">
     <h2>Recherche de Vols</h2>
 
+    <div class="search-form">
+        <form action="./searchFlights" method="get">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="departureCity">Ville de départ:</label>
+                    <select name="departureCityId" id="departureCity">
+                        <option value="">Toutes les villes</option>
+                        <% if (cities != null) {
+                            for (City city : cities) { %>
+                        <option value="<%= city.getCity_id() %>"><%= city.getCity_name() %></option>
+                        <% }
+                        } %>
+                    </select>
+                </div>
 
+                <div class="form-group">
+                    <label for="arrivalCity">Ville d'arrivée:</label>
+                    <select name="arrivalCityId" id="arrivalCity">
+                        <option value="">Toutes les villes</option>
+                        <% if (cities != null) {
+                            for (City city : cities) { %>
+                        <option value="<%= city.getCity_id() %>"><%= city.getCity_name() %></option>
+                        <% }
+                        } %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="departureDate">Date de départ:</label>
+                    <input type="date" id="departureDate" name="departureDate">
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-search"></i> Rechercher
+                </button>
+            </div>
+        </form>
+    </div>
 
     <div class="table-container">
         <table>
