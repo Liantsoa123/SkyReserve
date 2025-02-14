@@ -2,6 +2,7 @@ package controller;
 
 import dao.CityDAO;
 import dao.FlightDAO;
+import dao.PlaneDAO;
 import mg.noobframework.annotation.*;
 import mg.noobframework.modelview.Modelview;
 import model.Flight;
@@ -16,7 +17,7 @@ public class FlightController {
     public Modelview showInsertFlight() throws Exception {
         Modelview mv = new Modelview();
         mv.add("cities", CityDAO.findAll());
-
+        mv.add("planes", PlaneDAO.findAll());
         mv.setUrl("insertFlight.jsp");
         return mv;
     }
@@ -30,6 +31,7 @@ public class FlightController {
         mv.add("url", "/showInsertFlight");
         try {
             mv.add("cities", CityDAO.findAll());
+            mv.add("planes", PlaneDAO.findAll());
             //Check value
             if (flight.getDeparture_city_id() == flight.getArrival_city_id()) {
                 mv.add("errorMessage", "Departure city and arrival city must be different");
@@ -66,6 +68,7 @@ public class FlightController {
         Modelview mv = new Modelview();
         mv.add("flights", FlightDAO.findAll());
         mv.add("cities", CityDAO.findAll());
+        mv.add("planes", PlaneDAO.findAll());
         mv.setUrl("listsFlight.jsp");
         return mv;
     }
@@ -77,6 +80,7 @@ public class FlightController {
         Modelview mv = new Modelview();
         mv.add("flights", FlightDAO.searchFlights(departureCityId, arrivalCityId, departureDate));
         mv.add("cities", CityDAO.findAll());
+        mv.add("planes", PlaneDAO.findAll());
         mv.setUrl("listsFlight.jsp");
         mv.add("departureCityId", departureCityId);
         mv.add("arrivalCityId", arrivalCityId);
@@ -106,6 +110,7 @@ public class FlightController {
         Modelview mv = new Modelview();
         mv.add("flight", FlightDAO.findById(flightId));
         mv.add("cities", CityDAO.findAll());
+        mv.add("planes", PlaneDAO.findAll());
         mv.setUrl("insertFlight.jsp");
         return mv;
     }

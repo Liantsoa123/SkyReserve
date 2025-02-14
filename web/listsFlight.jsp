@@ -3,9 +3,11 @@
 <%@ page import="model.City" %>
 <%@ page import="model.Flight" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="model.Plane" %>
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
     List<City> cities = (List<City>) request.getAttribute("cities");
+    List<Plane> planes = (List<Plane>) request.getAttribute("planes");
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 %>
 
@@ -69,6 +71,7 @@
         <table>
             <thead>
             <tr>
+                <th>Avion</th>
                 <th>Ville de départ</th>
                 <th>Ville d'arrivée</th>
                 <th>Date de départ</th>
@@ -89,8 +92,15 @@
                             arrivalCity = city;
                         }
                     }
+                    Plane plane = null;
+                    for (Plane p : planes) {
+                        if (p.getPlane_id() == flight.getPlane_id()) {
+                            plane = p;
+                        }
+                    }
             %>
             <tr>
+                <td><%= plane != null ? plane.getModel() : "N/A" %></td>
                 <td><%= departureCity != null ? departureCity.getCity_name() : "N/A" %></td>
                 <td><%= arrivalCity != null ? arrivalCity.getCity_name() : "N/A" %></td>
                 <td><%= dateFormat.format(flight.getDeparture_date()) %></td>

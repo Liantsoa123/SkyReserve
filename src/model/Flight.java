@@ -16,15 +16,19 @@ public class Flight {
     @Required
     private int  arrival_city_id;
 
+    @Required
+    private int  plane_id;
+
     public Flight() {
     }
 
-    public Flight(int flight_id, Timestamp departure_date, Timestamp arrival_date, int departure_city_id, int arrival_city_id) {
+    public Flight(int flight_id, Timestamp departure_date, Timestamp arrival_date, int departure_city_id, int arrival_city_id, int plane_id) {
         this.flight_id = flight_id;
         this.departure_date = departure_date;
         this.arrival_date = arrival_date;
         this.departure_city_id = departure_city_id;
         this.arrival_city_id = arrival_city_id;
+        this.plane_id = plane_id;
     }
 
     public int getFlight_id() {
@@ -65,5 +69,13 @@ public class Flight {
 
     public void setArrival_city_id(int arrival_city_id) {
         this.arrival_city_id = arrival_city_id;
+    }
+
+    public int getPlane_id() {
+        return plane_id;
+    }
+
+    public void setPlane_id(int plane_id) {
+        this.plane_id = plane_id;
     }
 }
