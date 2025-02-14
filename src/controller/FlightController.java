@@ -62,4 +62,19 @@ public class FlightController {
         return mv;
     }
 
+    @Get
+    @Url("/deleteFlight")
+    @AuthMethod("ADMIN")
+    public Modelview deleteFlight(@RequestParam("flightId") int flightId) {
+        Modelview mv = new Modelview();
+        try {
+            FlightDAO.delete(flightId);
+            mv.add("message", "Flight deleted successfully");
+        } catch (Exception e) {
+            mv.add("error", "An error occurred while deleting the flight");
+        }
+        mv.setUrl("showAllFlights");
+        return mv;
+    }
+
 }
