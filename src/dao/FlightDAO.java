@@ -11,15 +11,16 @@ public class FlightDAO {
     // Create
     public static void insert(Flight flight) throws SQLException {
         ConnectionBdd connectionBdd = new ConnectionBdd();
-        String query = "INSERT INTO flight (departure_date, arrival_date, departure_city_id, arrival_city_id) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO flight (departure_date, arrival_date, departure_city_id, arrival_city_id, plane_id) VALUES (?, ?, ?, ?,?)";
 
         try (Connection conn = connectionBdd.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(query)) {
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setTimestamp(1, flight.getDeparture_date());
             pstmt.setTimestamp(2, flight.getArrival_date());
             pstmt.setInt(3, flight.getDeparture_city_id());
             pstmt.setInt(4, flight.getArrival_city_id());
+            pstmt.setInt(5, flight.getPlane_id());
 
             pstmt.executeUpdate();
         }
@@ -35,7 +36,7 @@ public class FlightDAO {
                 "WHERE f.flight_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(query)) {
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, flightId);
 
@@ -46,7 +47,8 @@ public class FlightDAO {
                             rs.getTimestamp("departure_date"),
                             rs.getTimestamp("arrival_date"),
                             rs.getInt("departure_city_id"),
-                            rs.getInt("arrival_city_id"));
+                            rs.getInt("arrival_city_id"),
+                            rs.getInt("plane_id"));
                 }
             }
         }
@@ -61,8 +63,8 @@ public class FlightDAO {
         String query = "SELECT * FROM flight";
 
         try (Connection conn = connectionBdd.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(query);
-                ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement pstmt = conn.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 Flight flight = new Flight(
@@ -70,7 +72,8 @@ public class FlightDAO {
                         rs.getTimestamp("departure_date"),
                         rs.getTimestamp("arrival_date"),
                         rs.getInt("departure_city_id"),
-                        rs.getInt("arrival_city_id"));
+                        rs.getInt("arrival_city_id"),
+                        rs.getInt("plane_id"));
                 flights.add(flight);
             }
         }
@@ -81,16 +84,17 @@ public class FlightDAO {
     public static void update(Flight flight) throws SQLException {
         ConnectionBdd connectionBdd = new ConnectionBdd();
         String query = "UPDATE flight SET departure_date = ?, arrival_date = ?, " +
-                "departure_city_id = ?, arrival_city_id = ? WHERE flight_id = ?";
+                "departure_city_id = ?, arrival_city_id = ?, plane_id = ? WHERE flight_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(query)) {
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setTimestamp(1, flight.getDeparture_date());
             pstmt.setTimestamp(2, flight.getArrival_date());
             pstmt.setInt(3, flight.getDeparture_city_id());
             pstmt.setInt(4, flight.getArrival_city_id());
-            pstmt.setInt(5, flight.getFlight_id());
+            pstmt.setInt(5, flight.getPlane_id());
+            pstmt.setInt(6, flight.getFlight_id());
 
             pstmt.executeUpdate();
         }
@@ -102,7 +106,7 @@ public class FlightDAO {
         String query = "DELETE FROM flight WHERE flight_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(query)) {
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, flightId);
             pstmt.executeUpdate();
@@ -126,7 +130,7 @@ public class FlightDAO {
         }
 
         try (Connection conn = connectionBdd.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(query)) {
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             int i = 1;
             if (departureCityId != -1) {
@@ -146,7 +150,8 @@ public class FlightDAO {
                             rs.getTimestamp("departure_date"),
                             rs.getTimestamp("arrival_date"),
                             rs.getInt("departure_city_id"),
-                            rs.getInt("arrival_city_id"));
+                            rs.getInt("arrival_city_id"),
+                            rs.getInt("plane_id"));
                     flights.add(flight);
                 }
             }
