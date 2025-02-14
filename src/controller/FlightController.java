@@ -19,7 +19,7 @@ public class FlightController {
     }
 
     @Post
-    @AuthClass("ADMIN")
+    @AuthMethod("ADMIN")
     @Url("/insertFlight")
     public Modelview insertFlight(@RequestParamObject("Flight")Flight flight) {
         Modelview mv = new Modelview();
@@ -33,6 +33,16 @@ public class FlightController {
             mv.add("error", "An error occurred while inserting the flight");
         }
         mv.setUrl("insertFlight.jsp");
+        return mv;
+    }
+
+    @Get
+    @Url("/showAllFlights")
+    public Modelview showAllFlights() throws Exception {
+        Modelview mv = new Modelview();
+        mv.add("flights", FlightDAO.findAll());
+        mv.add("cities", CityDAO.findAll());
+        mv.setUrl("listsFlight.jsp");
         return mv;
     }
 
