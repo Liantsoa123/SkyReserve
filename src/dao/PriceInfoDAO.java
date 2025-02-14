@@ -18,8 +18,8 @@ public class PriceInfoDAO {
         try (Connection conn = connectionBdd.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setInt(1, priceInfo.getSeat_type().getSeat_type_id());
-            pstmt.setInt(2, priceInfo.getFlight().getFlight_id());
+            pstmt.setInt(1,priceInfo.getSeat_type_id());
+            pstmt.setInt(2, priceInfo.getFlight_id());
             pstmt.setDouble(3, priceInfo.getUnit_price());
             pstmt.setDouble(4, priceInfo.getDiscount_percentage());
             pstmt.setInt(5, priceInfo.getNumber());
@@ -42,8 +42,8 @@ public class PriceInfoDAO {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     priceInfo = new PriceInfo(
-                            SeatTypeDAO.findById(rs.getInt("seat_type_id")),
-                            FlightDAO.findById(rs.getInt("flight_id")),
+                            rs.getInt("seat_type_id"),
+                            rs.getInt("flight_id"),
                             rs.getDouble("unit_price"),
                             rs.getDouble("discount_percentage"),
                             rs.getInt("number")
@@ -66,8 +66,8 @@ public class PriceInfoDAO {
 
             while (rs.next()) {
                 PriceInfo priceInfo = new PriceInfo(
-                        SeatTypeDAO.findById(rs.getInt("seat_type_id")),
-                        FlightDAO.findById(rs.getInt("flight_id")),
+                        rs.getInt("seat_type_id"),
+                        rs.getInt("flight_id"),
                         rs.getDouble("unit_price"),
                         rs.getDouble("discount_percentage"),
                         rs.getInt("number")
@@ -89,8 +89,8 @@ public class PriceInfoDAO {
             pstmt.setDouble(1, priceInfo.getUnit_price());
             pstmt.setDouble(2, priceInfo.getDiscount_percentage());
             pstmt.setInt(3, priceInfo.getNumber());
-            pstmt.setInt(4, priceInfo.getSeat_type().getSeat_type_id());
-            pstmt.setInt(5, priceInfo.getFlight().getFlight_id());
+            pstmt.setInt(4, priceInfo.getSeat_type_id());
+            pstmt.setInt(5, priceInfo.getFlight_id());
             pstmt.executeUpdate();
         }
     }
