@@ -3,15 +3,14 @@ package model;
 public class SeatType {
     private int seat_type_id;
     private String type_name;
-    private double discount_percentage;
 
     public SeatType() {
     }
 
-    public SeatType(int seat_type_id, String type_name, double discount_percentage) {
+    public SeatType(int seat_type_id, String type_name) {
         this.seat_type_id = seat_type_id;
         this.type_name = type_name;
-        this.discount_percentage = discount_percentage;
+
     }
 
     public int getSeat_type_id() {
@@ -28,13 +27,5 @@ public class SeatType {
 
     public void setType_name(String type_name) {
         this.type_name = type_name;
-    }
-
-    public double getDiscount_percentage() {
-        return discount_percentage;
-    }
-
-    public void setDiscount_percentage(double discount_percentage) {
-        this.discount_percentage = discount_percentage;
     }
 }
