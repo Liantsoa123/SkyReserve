@@ -26,7 +26,7 @@
     <h2>Recherche de Vols</h2>
 
     <div class="search-form">
-        <form action="./searchFlights" method="get">
+        <form action="./searchFlights" method="POST">
             <div class="form-row">
                 <div class="form-group">
                     <label for="departureCity">Ville de départ:</label>
