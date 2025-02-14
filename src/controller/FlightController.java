@@ -16,6 +16,7 @@ public class FlightController {
     public Modelview showInsertFlight() throws Exception {
         Modelview mv = new Modelview();
         mv.add("cities", CityDAO.findAll());
+
         mv.setUrl("insertFlight.jsp");
         return mv;
     }
@@ -28,7 +29,7 @@ public class FlightController {
         mv.add("flight", flight);
         mv.add("url", "/showInsertFlight");
         try {
-            mv.add("cites", CityDAO.findAll());
+            mv.add("cities", CityDAO.findAll());
             //Update
             if (flight.getFlight_id()>0){
                 FlightDAO.update(flight);
