@@ -24,13 +24,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/insertFlight.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/navbar.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/messages.css">
 </head>
 <body>
 
 <jsp:include page="components/navbar.jsp"/>
 
 <div class="container">
-    <h2>Ajouter un Nouveau Vol</h2>
+    <h2><%=flight!=null?"Modifier":"Ajouter"%> un Nouveau Vol</h2>
+
+    <jsp:include page="components/messages.jsp"/>
 
     <form action="./insertFlight" method="post">
         <input type="hidden" name="Flight.flight_id" value="<%=flight!=null?flight.getFlight_id():"-1"%>">
@@ -118,11 +121,11 @@
         </div>
 
         <div class="form-actions">
-            <button type="button" class="btn-secondary" onclick="window.location.href='#'">
+            <button type="button" class="btn-secondary" onclick="window.location.href='./showAllFlights'">
                 <i class="fas fa-times"></i> Annuler
             </button>
             <button type="submit" class="btn-primary">
-                <i class="fas fa-plus"></i> Ajouter le vol
+                <i class="fas <%=flight!=null?"fa-edit":"fa-plus"%>"></i><%=flight!=null?"Modifier":"Ajouter"%> le vol
             </button>
         </div>
     </form>
