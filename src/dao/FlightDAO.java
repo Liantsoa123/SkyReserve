@@ -30,9 +30,7 @@ public class FlightDAO {
         ConnectionBdd connectionBdd = new ConnectionBdd();
         Flight flight = null;
 
-        String query = "SELECT f.*, " +
-                "dc.city_id as dep_city_id, dc.name as dep_city_name, " +
-                "ac.city_id as arr_city_id, ac.name as arr_city_name " +
+        String query = "SELECT *" +
                 "FROM flight f " +
                 "WHERE f.flight_id = ?";
 
