@@ -117,7 +117,7 @@
 
 <script>
     function editFlight(flightId) {
-        window.location.href = './editFlight?id=' + flightId;
+        window.location.href = './showUpdateFlight?flightId=' + flightId;
     }
 
     function deleteFlight(flightId) {
