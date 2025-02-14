@@ -20,12 +20,12 @@
         <div class="form-group">
             <label for="name">Nom d'utilisateur:</label>
             <input type="text" id="name" name="name"
-                   value="<%= request.getAttribute("name") != null ? request.getAttribute("name") : "" %>" required>
+                   value="<%= request.getAttribute("name") != null ? request.getAttribute("name") : "liantsoa" %>" required>
         </div>
         <div class="form-group">
             <label for="password">Mot de passe:</label>
             <input type="password" id="password" name="password"
-                   value="<%= request.getAttribute("password") != null ? request.getAttribute("password") : "" %>" required>
+                   value="<%= request.getAttribute("password") != null ? request.getAttribute("password") : "12345" %>" required>
         </div>
         <button type="submit">Se connecter</button>
     </form>

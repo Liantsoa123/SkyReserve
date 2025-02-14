@@ -37,9 +37,8 @@ public class UserController {
         } else {
             mv.add("name", name);
             mv.add("password", password);
-            mv.add("error", "Invalid login or password");
+            mv.add("error", "Invalid name or password");
             mv.setUrl("login.jsp");
-            mv.add("url", "/showlogin");
         }
         return mv;
     }

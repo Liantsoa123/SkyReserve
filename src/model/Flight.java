@@ -1,23 +1,30 @@
 package model;
 
+import mg.noobframework.annotation.Required;
+
 import java.sql.Timestamp;
 
 public class Flight {
+
     private int flight_id;
+    @Required
     private Timestamp departure_date;
+    @Required
     private Timestamp arrival_date;
-    private City departure_city;
-    private City arrival_city;
+    @Required
+    private int  departure_city_id;
+    @Required
+    private int  arrival_city_id;
 
     public Flight() {
     }
 
-    public Flight(int flight_id, Timestamp departure_date, Timestamp arrival_date, City departure_city, City arrival_city) {
+    public Flight(int flight_id, Timestamp departure_date, Timestamp arrival_date, int departure_city_id, int arrival_city_id) {
         this.flight_id = flight_id;
         this.departure_date = departure_date;
         this.arrival_date = arrival_date;
-        this.departure_city = departure_city;
-        this.arrival_city = arrival_city;
+        this.departure_city_id = departure_city_id;
+        this.arrival_city_id = arrival_city_id;
     }
 
     public int getFlight_id() {
@@ -44,19 +51,19 @@ public class Flight {
         this.arrival_date = arrival_date;
     }
 
-    public City getDeparture_city() {
-        return departure_city;
+    public int getDeparture_city_id() {
+        return departure_city_id;
     }
 
-    public void setDeparture_city(City departure_city) {
-        this.departure_city = departure_city;
+    public void setDeparture_city_id(int departure_city_id) {
+        this.departure_city_id = departure_city_id;
     }
 
-    public City getArrival_city() {
-        return arrival_city;
+    public int getArrival_city_id() {
+        return arrival_city_id;
     }
 
-    public void setArrival_city(City arrival_city) {
-        this.arrival_city = arrival_city;
+    public void setArrival_city_id(int arrival_city_id) {
+        this.arrival_city_id = arrival_city_id;
     }
 }
