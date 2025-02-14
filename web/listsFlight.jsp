@@ -31,10 +31,11 @@
                 <div class="form-group">
                     <label for="departureCity">Ville de départ:</label>
                     <select name="departureCityId" id="departureCity">
-                        <option value="">Toutes les villes</option>
+                        <option value="-1">Toutes les villes</option>
                         <% if (cities != null) {
+                            String selectedDepartureCityId = request.getParameter("departureCityId");
                             for (City city : cities) { %>
-                        <option value="<%= city.getCity_id() %>"><%= city.getCity_name() %></option>
+                        <option value="<%= city.getCity_id() %>" <%= selectedDepartureCityId != null && selectedDepartureCityId.equals(String.valueOf(city.getCity_id())) ? "selected" : "" %>><%= city.getCity_name() %></option>
                         <% }
                         } %>
                     </select>
@@ -43,10 +44,11 @@
                 <div class="form-group">
                     <label for="arrivalCity">Ville d'arrivée:</label>
                     <select name="arrivalCityId" id="arrivalCity">
-                        <option value="">Toutes les villes</option>
+                        <option value="-1">Toutes les villes</option>
                         <% if (cities != null) {
+                            String selectedArrivalCityId = request.getParameter("arrivalCityId");
                             for (City city : cities) { %>
-                        <option value="<%= city.getCity_id() %>"><%= city.getCity_name() %></option>
+                        <option value="<%= city.getCity_id() %>" <%= selectedArrivalCityId != null && selectedArrivalCityId.equals(String.valueOf(city.getCity_id())) ? "selected" : "" %>><%= city.getCity_name() %></option>
                         <% }
                         } %>
                     </select>
@@ -54,7 +56,7 @@
 
                 <div class="form-group">
                     <label for="departureDate">Date de départ:</label>
-                    <input type="date" id="departureDate" name="departureDate">
+                    <input type="date" id="departureDate" name="departureDate" value="<%=request.getParameter("departureDate")!=null?request.getParameter("departureDate"):""%>" >
                 </div>
 
                 <button type="submit" class="btn-primary">
@@ -63,7 +65,6 @@
             </div>
         </form>
     </div>
-
     <div class="table-container">
         <table>
             <thead>
