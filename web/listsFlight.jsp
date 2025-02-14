@@ -122,7 +122,7 @@
 
     function deleteFlight(flightId) {
         if (confirm('Êtes-vous sûr de vouloir supprimer ce vol ?')) {
-            window.location.href = './deleteFlight?id=' + flightId;
+            window.location.href = './deleteFlight?flightId=' + flightId;
         }
     }
 </script>
