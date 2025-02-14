@@ -1,10 +1,16 @@
 package model;
 
+import mg.noobframework.annotation.Required;
+
 public class PriceInfo {
+    @Required
     private int seat_type_id;
+    @Required
     private int flight_id;
+    @Required
     private double unit_price;
     private double discount_percentage;
+    @Required
     private int number;
 
     public PriceInfo() {
