@@ -30,8 +30,20 @@ public class FlightController {
         mv.add("url", "/showInsertFlight");
         try {
             mv.add("cities", CityDAO.findAll());
+            //Check value
+            if (flight.getDeparture_city_id() == flight.getArrival_city_id()) {
+                mv.add("errorMessage", "Departure city and arrival city must be different");
+                mv.setUrl("insertFlight.jsp");
+                return mv;
+            }
+            if (flight.getDeparture_date().after(flight.getArrival_date()) || flight.getDeparture_date().equals(flight.getArrival_date())) {
+                mv.add("errorMessage", "Departure date must be before arrival date");
+                mv.setUrl("insertFlight.jsp");
+                return mv;
+            }
+
             //Update
-            if (flight.getFlight_id()>0){
+            if (flight.getFlight_id() > 0) {
                 FlightDAO.update(flight);
                 mv.add("message", "Flight updated successfully");
             }
@@ -42,7 +54,7 @@ public class FlightController {
             }
 
         } catch (Exception e) {
-            mv.add("error", "An error occurred while inserting the flight");
+            mv.add("errorMessage", "An error occurred while inserting the flight");
         }
         mv.setUrl("insertFlight.jsp");
         return mv;
@@ -61,7 +73,7 @@ public class FlightController {
     @Post
     @Url("/searchFlights")
     public Modelview searchFlight(@RequestParam("departureCityId") int departureCityId,
-                                  @RequestParam("arrivalCityId") int arrivalCityId, @RequestParam("departureDate")Date departureDate) throws Exception {
+                                  @RequestParam("arrivalCityId") int arrivalCityId, @RequestParam("departureDate") Date departureDate) throws Exception {
         Modelview mv = new Modelview();
         mv.add("flights", FlightDAO.searchFlights(departureCityId, arrivalCityId, departureDate));
         mv.add("cities", CityDAO.findAll());
