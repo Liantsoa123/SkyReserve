@@ -6,6 +6,8 @@ import mg.noobframework.annotation.*;
 import mg.noobframework.modelview.Modelview;
 import model.Flight;
 
+import java.sql.Date;
+
 @Controller
 public class FlightController {
 
@@ -21,7 +23,7 @@ public class FlightController {
     @Post
     @AuthMethod("ADMIN")
     @Url("/insertFlight")
-    public Modelview insertFlight(@RequestParamObject("Flight")Flight flight) {
+    public Modelview insertFlight(@RequestParamObject("Flight") Flight flight) {
         Modelview mv = new Modelview();
         mv.add("flight", flight);
         mv.add("url", "/showInsertFlight");
@@ -43,6 +45,20 @@ public class FlightController {
         mv.add("flights", FlightDAO.findAll());
         mv.add("cities", CityDAO.findAll());
         mv.setUrl("listsFlight.jsp");
+        return mv;
+    }
+
+    @Post
+    @Url("/searchFlights")
+    public Modelview searchFlight(@RequestParam("departureCityId") int departureCityId,
+                                  @RequestParam("arrivalCityId") int arrivalCityId, @RequestParam("departureDate")Date departureDate) throws Exception {
+        Modelview mv = new Modelview();
+        mv.add("flights", FlightDAO.searchFlights(departureCityId, arrivalCityId, departureDate));
+        mv.add("cities", CityDAO.findAll());
+        mv.setUrl("listsFlight.jsp");
+        mv.add("departureCityId", departureCityId);
+        mv.add("arrivalCityId", arrivalCityId);
+        mv.add("departureDate", departureDate);
         return mv;
     }
 
