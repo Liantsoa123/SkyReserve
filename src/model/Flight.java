@@ -11,9 +11,6 @@ public class Flight {
     private Timestamp departure_date;
     @Required
     private Timestamp arrival_date;
-
-
-
     @Required
     private int  departure_city_id;
     @Required
