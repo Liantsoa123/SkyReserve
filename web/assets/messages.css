@@ -1,0 +1,96 @@
+:root {
+    --success-color: #2ecc71;
+    --success-bg: #eafaf1;
+    --error-color: #e74c3c;
+    --error-bg: #fdf3f2;
+    --primary-color: #1a4f8b;
+    --text-color: #2c3e50;
+}
+
+.message-container {
+    position: relative;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.success-message {
+    background-color: var(--success-bg);
+    border-left: 4px solid var(--success-color);
+}
+
+.error-message {
+    background-color: var(--error-bg);
+    border-left: 4px solid var(--error-color);
+}
+
+.message-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.success-message .message-icon {
+    color: var(--success-color);
+}
+
+.error-message .message-icon {
+    color: var(--error-color);
+}
+
+.message-content {
+    flex-grow: 1;
+}
+
+.message-content h4 {
+    margin: 0 0 0.25rem 0;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.message-content p {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.message-close {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 1rem;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+
+.message-close:hover {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .message-container {
+        margin: 0.5rem 0;
+        padding: 0.75rem;
+    }
+
+    .message-icon {
+        font-size: 1.25rem;
+    }
+}
