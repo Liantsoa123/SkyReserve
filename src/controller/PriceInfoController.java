@@ -42,7 +42,7 @@ public class PriceInfoController {
             mv.add("message", "Price info inserted successfully");
 
         } catch (Exception e) {
-            mv.add("errorMessage", "An error occurred while inserting the price info");
+            mv.add("errorMessage", "An error occurred while inserting the price info: "+e.getMessage());
         }
         return mv;
     }
