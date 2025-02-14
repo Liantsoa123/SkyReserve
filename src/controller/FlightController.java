@@ -77,4 +77,15 @@ public class FlightController {
         return mv;
     }
 
+    @Get
+    @Url("/showUpdateFlight")
+    @AuthMethod("ADMIN")
+    public Modelview showUpdateFlight(@RequestParam("flightId") int flightId) throws Exception {
+        Modelview mv = new Modelview();
+        mv.add("flight", FlightDAO.findById(flightId));
+        mv.add("cities", CityDAO.findAll());
+        mv.setUrl("updateFlight.jsp");
+        return mv;
+    }
+
 }
