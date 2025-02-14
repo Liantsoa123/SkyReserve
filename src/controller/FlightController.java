@@ -29,8 +29,17 @@ public class FlightController {
         mv.add("url", "/showInsertFlight");
         try {
             mv.add("cites", CityDAO.findAll());
-            FlightDAO.insert(flight);
-            mv.add("message", "Flight inserted successfully");
+            //Update
+            if (flight.getFlight_id()>0){
+                FlightDAO.update(flight);
+                mv.add("message", "Flight updated successfully");
+            }
+            //Insert
+            else {
+                FlightDAO.insert(flight);
+                mv.add("message", "Flight inserted successfully");
+            }
+
         } catch (Exception e) {
             mv.add("error", "An error occurred while inserting the flight");
         }
