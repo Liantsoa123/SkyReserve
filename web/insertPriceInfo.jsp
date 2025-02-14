@@ -57,10 +57,10 @@
         <div class="form-group">
             <label for="flight">Vol:</label>
             <select name="PriceInfo.flight_id" id="flight" required>
-                <option value="">Sélectionner un vol</option>
+                <option value="-1">Sélectionner un vol</option>
                 <% if (flights != null) {
                     for (Flight flight : flights) { %>
-                <option value="<%= flight.getFlight_id() %>">
+                <option value="<%= flight.getFlight_id() %>"  >
                     Vol <%= flight.getFlight_id() %> - Départ: <%= dateFormat.format(flight.getDeparture_date()) %>
                 </option>
                 <% }
@@ -94,7 +94,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="button" class="btn-secondary" onclick="window.location.href='./showAllPrices'">
+            <button type="button" class="btn-secondary" onclick="window.location.href='#'">
                 <i class="fas fa-times"></i> Annuler
             </button>
             <button type="submit" class="btn-primary">
