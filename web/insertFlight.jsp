@@ -29,17 +29,17 @@
     <form action="./insertFlight" method="post">
         <input type="hidden" name="Flight.flight_id" value="1">
 
-        <% if (error.get("departure_city")!=null) {%>
-            <div class="error-message"> <%=error.get("departure_city")%> </div>
+        <% if (error.get("departure_city_id")!=null) {%>
+            <div class="error-message"> <%=error.get("departure_city_id")%> </div>
         <% } %>
         <div class="form-group">
             <label for="departureCity">Ville de départ:</label>
-            <select name="Flight.departure_city" id="departureCity">
-                <option value="">Sélectionner une ville</option>
+            <select name="Flight.departure_city_id" id="departureCity">
+                <option value="-1">Sélectionner une ville</option>
                 <% if (cities != null) {
                     for (City city : cities) {
-                        String selected = (request.getParameter("Flight.departure_city") != null
-                                && Integer.parseInt(request.getParameter("Flight.departure_city")) == city.getCity_id())
+                        String selected = (request.getParameter("Flight.departure_city_id") != null
+                                && Integer.parseInt(request.getParameter("Flight.departure_city_id")) == city.getCity_id())
                                 ? "selected"
                                 : "";
                 %>
@@ -51,17 +51,17 @@
         </div>
 
 
-        <% if (error.get("arrival_city")!=null) {%>
-        <div class="error"> <%=error.get("arrival_city")%> </div>
+        <% if (error.get("arrival_city_id")!=null) {%>
+        <div class="error-message"> <%=error.get("arrival_city_id")%> </div>
         <% } %>
         <div class="form-group">
             <label for="arrivalCity">Ville d'arrivée:</label>
-            <select name="Flight.arrival_city" id="arrivalCity">
-                <option value="">Sélectionner une ville</option>
+            <select name="Flight.arrival_city_id" id="arrivalCity">
+                <option value="-1">Sélectionner une ville</option>
                 <% if (cities != null) {
                     for (City city : cities) {
-                        String selected = (request.getParameter("Flight.arrival_city") != null
-                                && Integer.parseInt(request.getParameter("Flight.arrival_city")) == city.getCity_id())
+                        String selected = (request.getParameter("Flight.arrival_city_id") != null
+                                && Integer.parseInt(request.getParameter("Flight.arrival_city_id")) == city.getCity_id())
                                 ? "selected"
                                 : "";
                 %>
@@ -73,7 +73,7 @@
         </div>
 
         <% if (error.get("departure_date")!=null) {%>
-        <div class="error"> <%=error.get("departure_date")%> </div>
+        <div class="error-message"> <%=error.get("departure_date")%> </div>
         <% } %>
         <div class="form-group">
             <label for="departureDate">Date et heure de départ:</label>
@@ -81,7 +81,7 @@
         </div>
 
         <% if (error.get("arrival_date")!=null) {%>
-        <div class="error"> <%=error.get("arrival_date")%> </div>
+        <div class="error-message"> <%=error.get("arrival_date")%> </div>
         <% } %>
         <div class="form-group">
             <label for="arrivalDate">Date et heure d'arrivée:</label>
