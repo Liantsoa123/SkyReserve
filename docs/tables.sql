@@ -17,9 +17,8 @@ CREATE TABLE city
 
 CREATE TABLE seat_type
 (
-    seat_type_id        SERIAL,
-    type_name           VARCHAR(250)   NOT NULL,
-    discount_percentage NUMERIC(15, 2) NOT NULL Default 0,
+    seat_type_id SERIAL,
+    type_name    VARCHAR(250) NOT NULL,
     PRIMARY KEY (seat_type_id)
 );
 
