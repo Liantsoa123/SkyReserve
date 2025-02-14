@@ -42,7 +42,7 @@ public class FlightController {
         Modelview mv = new Modelview();
         mv.add("flights", FlightDAO.findAll());
         mv.add("cities", CityDAO.findAll());
-        mv.setUrl("allFlights.jsp");
+        mv.setUrl("listsFlight.jsp");
         return mv;
     }
 
