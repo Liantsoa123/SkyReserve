@@ -84,7 +84,7 @@ public class FlightController {
         Modelview mv = new Modelview();
         mv.add("flight", FlightDAO.findById(flightId));
         mv.add("cities", CityDAO.findAll());
-        mv.setUrl("updateFlight.jsp");
+        mv.setUrl("insertFlight.jsp");
         return mv;
     }
 
