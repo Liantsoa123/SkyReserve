@@ -1,6 +1,7 @@
 package controller;
 
 import dao.CityDAO;
+import dao.PlaneDAO;
 import dao.UserDAO;
 import mg.noobframework.annotation.Controller;
 import mg.noobframework.annotation.Get;
@@ -25,7 +26,7 @@ public class UserController {
     @Post
     @Url("/login")
     public Modelview login(@RequestParam("name") String name, @RequestParam("password") String password,
-            Mysession mysession) throws Exception {
+                           Mysession mysession) throws Exception {
         Modelview mv = new Modelview();
         User user = UserDAO.login(name, password);
         if (user != null) {
@@ -33,6 +34,7 @@ public class UserController {
             mysession.add("roles", user.getRole());
             mysession.add("user", user);
             mv.add("cities", CityDAO.findAll());
+            mv.add("planes", PlaneDAO.findAll());
             mv.setUrl("insertFlight.jsp");
         } else {
             mv.add("name", name);

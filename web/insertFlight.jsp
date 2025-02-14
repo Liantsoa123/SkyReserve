@@ -3,14 +3,16 @@
 <%@ page import="model.City" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="model.Flight" %>
+<%@ page import="model.Plane" %>
 <%
     List<City> cities = (List<City>) request.getAttribute("cities");
-    HashMap<String , String> error = new HashMap<String , String>();
-    if(request.getAttribute("error") != null){
-        error = (HashMap<String , String>) request.getAttribute("error");
+    List<Plane> planes = (List<Plane>) request.getAttribute("planes");
+    HashMap<String, String> error = new HashMap<String, String>();
+    if (request.getAttribute("error") != null) {
+        error = (HashMap<String, String>) request.getAttribute("error");
     }
     Flight flight = null;
-    if(request.getAttribute("flight") != null){
+    if (request.getAttribute("flight") != null) {
         flight = (Flight) request.getAttribute("flight");
     }
 
@@ -31,15 +33,47 @@
 <jsp:include page="components/navbar.jsp"/>
 
 <div class="container">
-    <h2><%=flight!=null?"Modifier":"Ajouter"%> un Nouveau Vol</h2>
+    <h2><%=flight != null ? "Modifier" : "Ajouter"%> un Nouveau Vol</h2>
 
     <jsp:include page="components/messages.jsp"/>
 
     <form action="./insertFlight" method="post">
         <input type="hidden" name="Flight.flight_id" value="<%=flight!=null?flight.getFlight_id():"-1"%>">
 
-        <% if (error.get("departure_city_id")!=null) {%>
-            <div class="error-message"> <%=error.get("departure_city_id")%> </div>
+        <% if (error.get("plane_id") != null) {%>
+        <div class="error-message"><%=error.get("plane_id")%>
+        </div>
+        <% } %>
+        <div class="form-group">
+            <label for="plane">Avion:</label>
+            <select name="Flight.plane_id" id="plane">
+                <option value="-1">Sélectionner un avion</option>
+                <% if (planes != null) {
+                    for (Plane plane : planes) {
+                        String selected = "";
+                        if (flight != null) {
+                            selected = (flight.getPlane_id() == plane.getPlane_id())
+                                    ? "selected"
+                                    : "";
+                        } else {
+                            selected = (request.getParameter("Flight.plane_id") != null
+                                    && Integer.parseInt(request.getParameter("Flight.plane_id")) == plane.getPlane_id())
+                                    ? "selected"
+                                    : "";
+                        }
+
+                %>
+                <option value="<%= plane.getPlane_id() %>" <%= selected %>><%= plane.getModel() %>
+                </option>
+                <%
+                        }
+                    } %>
+            </select>
+        </div>
+
+        <% if (error.get("departure_city_id") != null) {%>
+        <div class="error-message"><%=error.get("departure_city_id")%>
+        </div>
         <% } %>
         <div class="form-group">
             <label for="departureCity">Ville de départ:</label>
@@ -52,7 +86,7 @@
                             selected = (flight.getDeparture_city_id() == city.getCity_id())
                                     ? "selected"
                                     : "";
-                        }else {
+                        } else {
                             selected = (request.getParameter("Flight.departure_city_id") != null
                                     && Integer.parseInt(request.getParameter("Flight.departure_city_id")) == city.getCity_id())
                                     ? "selected"
@@ -60,7 +94,8 @@
                         }
 
                 %>
-                <option value="<%= city.getCity_id() %>" <%= selected %>><%= city.getCity_name() %></option>
+                <option value="<%= city.getCity_id() %>" <%= selected %>><%= city.getCity_name() %>
+                </option>
                 <%
                         }
                     } %>
@@ -68,8 +103,9 @@
         </div>
 
 
-        <% if (error.get("arrival_city_id")!=null) {%>
-        <div class="error-message"> <%=error.get("arrival_city_id")%> </div>
+        <% if (error.get("arrival_city_id") != null) {%>
+        <div class="error-message"><%=error.get("arrival_city_id")%>
+        </div>
         <% } %>
         <div class="form-group">
             <label for="arrivalCity">Ville d'arrivée:</label>
@@ -82,41 +118,48 @@
                             selected = (flight.getArrival_city_id() == city.getCity_id())
                                     ? "selected"
                                     : "";
-                        }else {
-                        selected = (request.getParameter("Flight.arrival_city_id") != null
-                                && Integer.parseInt(request.getParameter("Flight.arrival_city_id")) == city.getCity_id())
-                                ? "selected"
-                                : "";
+                        } else {
+                            selected = (request.getParameter("Flight.arrival_city_id") != null
+                                    && Integer.parseInt(request.getParameter("Flight.arrival_city_id")) == city.getCity_id())
+                                    ? "selected"
+                                    : "";
                         }
                 %>
-                <option value="<%= city.getCity_id() %>" <%= selected %>><%= city.getCity_name() %></option>
+                <option value="<%= city.getCity_id() %>" <%= selected %>><%= city.getCity_name() %>
+                </option>
                 <%
                         }
                     } %>
             </select>
         </div>
 
-        <% if (error.get("departure_date")!=null) {%>
-        <div class="error-message"> <%=error.get("departure_date")%> </div>
+        <% if (error.get("departure_date") != null) {%>
+        <div class="error-message"><%=error.get("departure_date")%>
+        </div>
         <% } %>
         <div class="form-group">
             <label for="departureDate">Date et heure de départ:</label>
-            <% if (flight != null ) { %>
-                <input type="datetime-local" id="departureDate" name="Flight.departure_date" value="<%=flight.getDeparture_date()%>">
+            <% if (flight != null) { %>
+            <input type="datetime-local" id="departureDate" name="Flight.departure_date"
+                   value="<%=flight.getDeparture_date()%>">
             <% } else { %>
-            <input type="datetime-local" id="departureDate" name="Flight.departure_date" value="<%=request.getParameter("Flight.departure_date")!=null?request.getParameter("Flight.departure_date"):""  %>" >
+            <input type="datetime-local" id="departureDate" name="Flight.departure_date"
+                   value="<%=request.getParameter("Flight.departure_date")!=null?request.getParameter("Flight.departure_date"):""  %>">
             <% } %>
         </div>
 
-        <% if (error.get("arrival_date")!=null) {%>
-        <div class="error-message"> <%=error.get("arrival_date")%> </div>
+        <% if (error.get("arrival_date") != null) {%>
+        <div class="error-message"><%=error.get("arrival_date")%>
+        </div>
         <% } %>
         <div class="form-group">
             <label for="arrivalDate">Date et heure d'arrivée:</label>
-            <% if (flight != null ) { %>
-                <input type="datetime-local" id="arrivalDate" name="Flight.arrival_date" value="<%=flight.getArrival_date()%>">
+            <% if (flight != null) { %>
+            <input type="datetime-local" id="arrivalDate" name="Flight.arrival_date"
+                   value="<%=flight.getArrival_date()%>">
             <% } else { %>
-            <input type="datetime-local" id="arrivalDate" name="Flight.arrival_date" value="<%=request.getParameter("Flight.departure_date")!=null?request.getParameter("Flight.arrival_date"):""  %>">
+            <input type="datetime-local" id="arrivalDate" name="Flight.arrival_date"
+                   value="<%=request.getParameter("Flight.departure_date")!=null?request.getParameter("Flight.arrival_date"):""  %>">
             <% } %>
         </div>
 
@@ -125,7 +168,8 @@
                 <i class="fas fa-times"></i> Annuler
             </button>
             <button type="submit" class="btn-primary">
-                <i class="fas <%=flight!=null?"fa-edit":"fa-plus"%>"></i><%=flight!=null?"Modifier":"Ajouter"%> le vol
+                <i class="fas <%=flight!=null?"fa-edit":"fa-plus"%>"></i><%=flight != null ? "Modifier" : "Ajouter"%> le
+                vol
             </button>
         </div>
     </form>
