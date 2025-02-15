@@ -1,8 +1,12 @@
 package model;
 
+import mg.noobframework.annotation.Required;
+
 public class SettingReservation {
     private int setting_reservation_id;
+    @Required
     private double reservation;
+    @Required
     private double cancelation;
 
     public SettingReservation() {
