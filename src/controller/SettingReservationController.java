@@ -11,8 +11,12 @@ public class SettingReservationController {
 
     @Get
     @Url("/showSettingReservation")
-    public Modelview showSettingReservation() {
+    public Modelview showSettingReservation()throws  Exception {
         Modelview mv = new Modelview();
+        SettingReservation settingReservation = SettingReservationDAO.findById(1);
+        if (settingReservation != null) {
+            mv.add("settingReservation", settingReservation);
+        }
         mv.setUrl("settingReservation.jsp");
         return mv;
     }
@@ -23,6 +27,7 @@ public class SettingReservationController {
         Modelview mv = new Modelview();
         mv.add("settingReservation", settingReservation);
         mv.add("url", "/showSettingReservation");
+        mv.setUrl("settingReservation.jsp");
         try {
             //Update
             if (settingReservation.getSetting_reservation_id() > 0) {
