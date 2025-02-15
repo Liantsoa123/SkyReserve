@@ -60,6 +60,14 @@ CREATE TABLE number_promotion
     FOREIGN KEY (flight_id) REFERENCES flight (flight_id)
 );
 
+CREATE TABLE setting_reservation
+(
+    setting_reservation_id SERIAL,
+    reservation            NUMERIC(5, 1) NOT NULL,
+    cancelation            NUMERIC(5, 1) NOT NULL,
+    PRIMARY KEY (setting_reservation_id)
+);
+
 CREATE TABLE reservation
 (
     reservation_id       SERIAL,
