@@ -71,4 +71,28 @@ public class SettingReservationDAO {
             pstmt.executeUpdate();
         }
     }
+
+    // Read
+    public static SettingReservation findById(int settingReservationId) throws SQLException {
+        ConnectionBdd connectionBdd = new ConnectionBdd();
+        SettingReservation settingReservation = null;
+        String query = "SELECT * FROM setting_reservation WHERE setting_reservation_id = ?";
+
+        try (Connection conn = connectionBdd.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, settingReservationId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    settingReservation = new SettingReservation(
+                            rs.getInt("setting_reservation_id"),
+                            rs.getDouble("reservation"),
+                            rs.getDouble("cancelation")
+                    );
+                }
+            }
+        }
+        return settingReservation;
+    }
 }
