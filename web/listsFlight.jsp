@@ -26,6 +26,14 @@
 
 <div class="container">
     <h2>Recherche de Vols</h2>
+    <!-- Ajouter le bouton après le titre -->
+    <div style="margin-bottom: 1rem; text-align: right;">
+        <a href="./showInsertFlight" class="btn-primary"
+           style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i class="fas fa-plus"></i>
+            Ajouter un vol
+        </a>
+    </div>
 
     <div class="search-form">
         <form action="./searchFlights" method="POST">
@@ -37,7 +45,8 @@
                         <% if (cities != null) {
                             String selectedDepartureCityId = request.getParameter("departureCityId");
                             for (City city : cities) { %>
-                        <option value="<%= city.getCity_id() %>" <%= selectedDepartureCityId != null && selectedDepartureCityId.equals(String.valueOf(city.getCity_id())) ? "selected" : "" %>><%= city.getCity_name() %></option>
+                        <option value="<%= city.getCity_id() %>" <%= selectedDepartureCityId != null && selectedDepartureCityId.equals(String.valueOf(city.getCity_id())) ? "selected" : "" %>><%= city.getCity_name() %>
+                        </option>
                         <% }
                         } %>
                     </select>
@@ -50,7 +59,8 @@
                         <% if (cities != null) {
                             String selectedArrivalCityId = request.getParameter("arrivalCityId");
                             for (City city : cities) { %>
-                        <option value="<%= city.getCity_id() %>" <%= selectedArrivalCityId != null && selectedArrivalCityId.equals(String.valueOf(city.getCity_id())) ? "selected" : "" %>><%= city.getCity_name() %></option>
+                        <option value="<%= city.getCity_id() %>" <%= selectedArrivalCityId != null && selectedArrivalCityId.equals(String.valueOf(city.getCity_id())) ? "selected" : "" %>><%= city.getCity_name() %>
+                        </option>
                         <% }
                         } %>
                     </select>
@@ -58,7 +68,8 @@
 
                 <div class="form-group">
                     <label for="departureDate">Date de départ:</label>
-                    <input type="date" id="departureDate" name="departureDate" value="<%=request.getParameter("departureDate")!=null?request.getParameter("departureDate"):""%>" >
+                    <input type="date" id="departureDate" name="departureDate"
+                           value="<%=request.getParameter("departureDate")!=null?request.getParameter("departureDate"):""%>">
                 </div>
 
                 <button type="submit" class="btn-primary">
@@ -100,11 +111,16 @@
                     }
             %>
             <tr>
-                <td><%= plane != null ? plane.getModel() : "N/A" %></td>
-                <td><%= departureCity != null ? departureCity.getCity_name() : "N/A" %></td>
-                <td><%= arrivalCity != null ? arrivalCity.getCity_name() : "N/A" %></td>
-                <td><%= dateFormat.format(flight.getDeparture_date()) %></td>
-                <td><%= dateFormat.format(flight.getArrival_date()) %></td>
+                <td><%= plane != null ? plane.getModel() : "N/A" %>
+                </td>
+                <td><%= departureCity != null ? departureCity.getCity_name() : "N/A" %>
+                </td>
+                <td><%= arrivalCity != null ? arrivalCity.getCity_name() : "N/A" %>
+                </td>
+                <td><%= dateFormat.format(flight.getDeparture_date()) %>
+                </td>
+                <td><%= dateFormat.format(flight.getArrival_date()) %>
+                </td>
                 <td class="actions">
                     <button onclick="editFlight(<%= flight.getFlight_id() %>)" class="btn-edit" title="Modifier">
                         <i class="fas fa-edit"></i>
@@ -117,7 +133,7 @@
             <% }
             } else { %>
             <tr>
-                <td colspan="5" class="no-data" >Aucun vol trouvé</td>
+                <td colspan="5" class="no-data">Aucun vol trouvé</td>
             </tr>
             <% } %>
             </tbody>
