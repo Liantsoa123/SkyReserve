@@ -5,7 +5,7 @@
 %>
 
 <nav class="navbar">
-    <a href="./dashboard" class="logo">
+    <a href="./dashboard.jsp" class="logo">
         <i class="fas fa-plane-departure"></i>
         SkyReserve
     </a>
