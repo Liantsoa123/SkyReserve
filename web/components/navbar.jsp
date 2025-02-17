@@ -12,7 +12,7 @@
     <div class="nav-links">
         <a href="./dashboard" ${pageContext.request.servletPath == '/WEB-INF/dashboard.jsp' ? 'class="active"' : ''}>Dashboard</a>
         <a href="./showAllFlights" ${pageContext.request.servletPath == '/listsFlight.jsp' || pageContext.request.servletPath == '/insertFlight.jsp' ? 'class="active"' : ''}>Vols</a>
-        <a href="./cities" ${pageContext.request.servletPath == '/WEB-INF/cities.jsp' ? 'class="active"' : ''}>Villes</a>
+        <a href="./showInsertPriceInfo" ${pageContext.request.servletPath == '/insertPriceInfo.jsp' ? 'class="active"' : ''}>Prix Vols</a>
         <a href="./promotions" ${pageContext.request.servletPath == '/WEB-INF/promotions.jsp' ? 'class="active"' : ''}>Promotions</a>
 
         <div class="profile-menu">
