@@ -44,4 +44,14 @@ public class UserController {
         }
         return mv;
     }
+
+    @Get
+    @Url("/logout")
+    public Modelview logout(Mysession mysession) {
+        mysession.delete("user");
+        mysession.delete("roles");
+        Modelview mv = new Modelview();
+        mv.setUrl("login.jsp");
+        return mv;
+    }
 }
