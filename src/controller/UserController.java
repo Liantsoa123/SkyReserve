@@ -35,7 +35,7 @@ public class UserController {
             mysession.add("user", user);
             mv.add("cities", CityDAO.findAll());
             mv.add("planes", PlaneDAO.findAll());
-            mv.setUrl("insertFlight.jsp");
+            mv.setUrl("dashboard.jsp");
         } else {
             mv.add("name", name);
             mv.add("password", password);

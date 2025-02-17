@@ -10,7 +10,7 @@
         SkyReserve
     </a>
     <div class="nav-links">
-        <a href="./dashboard" ${pageContext.request.servletPath == '/WEB-INF/dashboard.jsp' ? 'class="active"' : ''}>Dashboard</a>
+        <a href="./dashboard.jsp" ${pageContext.request.servletPath == '/dashboard.jsp' ? 'class="active"' : ''}>Dashboard</a>
         <a href="./showAllFlights" ${pageContext.request.servletPath == '/listsFlight.jsp' || pageContext.request.servletPath == '/insertFlight.jsp' ? 'class="active"' : ''}>Vols</a>
         <a href="./showInsertPriceInfo" ${pageContext.request.servletPath == '/insertPriceInfo.jsp' ? 'class="active"' : ''}>Prix Vols</a>
         <a href="./showSettingReservation" ${pageContext.request.servletPath == '/settingReservation.jsp' ? 'class="active"' : ''}>Paramètre de Reservation</a>
