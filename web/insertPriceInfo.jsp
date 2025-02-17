@@ -109,7 +109,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="button" class="btn-secondary" onclick="window.location.href='#'">
+            <button type="button" class="btn-secondary" onclick="window.location.href='./showAllFlights'">
                 <i class="fas fa-times"></i> Annuler
             </button>
             <button type="submit" class="btn-primary">

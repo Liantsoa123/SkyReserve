@@ -35,13 +35,23 @@ public class UserController {
             mysession.add("user", user);
             mv.add("cities", CityDAO.findAll());
             mv.add("planes", PlaneDAO.findAll());
-            mv.setUrl("insertFlight.jsp");
+            mv.setUrl("dashboard.jsp");
         } else {
             mv.add("name", name);
             mv.add("password", password);
             mv.add("error", "Invalid name or password");
             mv.setUrl("login.jsp");
         }
+        return mv;
+    }
+
+    @Get
+    @Url("/logout")
+    public Modelview logout(Mysession mysession) {
+        mysession.delete("user");
+        mysession.delete("roles");
+        Modelview mv = new Modelview();
+        mv.setUrl("login.jsp");
         return mv;
     }
 }
