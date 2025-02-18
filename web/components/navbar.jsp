@@ -14,6 +14,10 @@
         <a href="./showAllFlights" ${pageContext.request.servletPath == '/listsFlight.jsp' || pageContext.request.servletPath == '/insertFlight.jsp' ? 'class="active"' : ''}>Vols</a>
         <a href="./showInsertPriceInfo" ${pageContext.request.servletPath == '/insertPriceInfo.jsp' ? 'class="active"' : ''}>Prix Vols</a>
         <a href="./showSettingReservation" ${pageContext.request.servletPath == '/settingReservation.jsp' ? 'class="active"' : ''}>Paramètre de Reservation</a>
+        
+        <button id="theme-toggle" class="theme-toggle">
+            <i class="fas fa-moon"></i>
+        </button>
 
         <div class="profile-menu">
             <button class="profile-button">
