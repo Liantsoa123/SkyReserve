@@ -1,0 +1,73 @@
+:root {
+    --primary-color: #1a4f8b;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --background-color: #f5f6fa;
+    --text-color: #2c3e50;
+    --nav-height: 70px;
+}
+
+.dashboard {
+    padding: 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.welcome-section {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.welcome-section h1 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.welcome-section p {
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.action-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.action-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.action-card h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.action-card p {
+    font-size: 0.9rem;
+    color: #666;
+}

@@ -1,0 +1,64 @@
+/* web/assets/dark-mode.css */
+[data-theme="dark"] {
+    --primary-color: #4a90e2;
+    --secondary-color: #64b5f6;
+    --background-color: #1a1a1a;
+    --text-color: #ffffff;
+    --card-background: #2d2d2d;
+    --border-color: #404040;
+    --input-background: #333333;
+    --error-background: #442222;
+    --success-background: #224422;
+}
+
+[data-theme="dark"] body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .navbar, .profile-dropdown {
+    background-color: var(--card-background);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .container,
+[data-theme="dark"] .login-container,
+[data-theme="dark"] .search-form,
+[data-theme="dark"] .table-container,
+[data-theme="dark"] .action-card {
+    background-color: var(--card-background);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select {
+    background-color: var(--input-background);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] table th {
+    background-color: var(--primary-color);
+}
+
+[data-theme="dark"] table td {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .welcome-section {
+    background-color: var(--card-background);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .welcome-section h1 {
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .welcome-section p {
+    color: var(--text-color);
+    opacity: 0.8;
+}
