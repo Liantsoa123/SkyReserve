@@ -48,3 +48,17 @@
 [data-theme="dark"] tr:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
+
+[data-theme="dark"] .welcome-section {
+    background-color: var(--card-background);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .welcome-section h1 {
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .welcome-section p {
+    color: var(--text-color);
+    opacity: 0.8;
+}
