@@ -16,7 +16,7 @@
     color: var(--text-color);
 }
 
-[data-theme="dark"] .navbar {
+[data-theme="dark"] .navbar, .profile-dropdown {
     background-color: var(--card-background);
     border-color: var(--border-color);
 }
