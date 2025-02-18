@@ -38,9 +38,8 @@ public class PriceInfoController {
                 mv.setUrl("insertPriceInfo.jsp");
                 return mv;
             }
-            if (priceInfo.getUnit_price() > 0.0) {
-                PriceInfoDAO.insert(priceInfo);
-            }
+
+            PriceInfoDAO.insert(priceInfo);
             mv.add("message", "Price info inserted successfully");
 
         } catch (Exception e) {
