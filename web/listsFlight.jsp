@@ -4,15 +4,17 @@
 <%@ page import="model.Flight" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="model.Plane" %>
+<%@ page import="model.User" %>
 <%
     List<Flight> flights = (List<Flight>) request.getAttribute("flights");
     List<City> cities = (List<City>) request.getAttribute("cities");
     List<Plane> planes = (List<Plane>) request.getAttribute("planes");
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    User currentUser = (User) session.getAttribute("user");
 %>
 
 <!DOCTYPE html>
-<html data-theme="light" >
+<html data-theme="light">
 <head>
     <meta charset="UTF-8">
     <title>SkyReserve - Recherche de Vols</title>
@@ -28,7 +30,8 @@
 
 <div class="container">
     <h2>Recherche de Vols</h2>
-    <!-- Ajouter le bouton après le titre -->
+
+    <% if (currentUser.getRole().equals("admin")) { %>
     <div style="margin-bottom: 1rem; text-align: right;">
         <a href="./showInsertFlight" class="btn-primary"
            style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
@@ -36,6 +39,7 @@
             Ajouter un vol
         </a>
     </div>
+    <% } %>
 
     <div class="search-form">
         <form action="./searchFlights" method="POST">
@@ -124,12 +128,18 @@
                 <td><%= dateFormat.format(flight.getArrival_date()) %>
                 </td>
                 <td class="actions">
+                    <% if (currentUser.getRole().equals("admin")) { %>
                     <button onclick="editFlight(<%= flight.getFlight_id() %>)" class="btn-edit" title="Modifier">
                         <i class="fas fa-edit"></i>
                     </button>
                     <button onclick="deleteFlight(<%= flight.getFlight_id() %>)" class="btn-delete" title="Supprimer">
                         <i class="fas fa-trash"></i>
                     </button>
+                    <% } else { %>
+                    <button onclick="reserveFlight(<%= flight.getFlight_id() %>)" class="btn-reserve" title="Réserver">
+                        <i class="fas fa-plane-departure"></i>
+                    </button>
+                    <% } %>
                 </td>
             </tr>
             <% }
@@ -152,6 +162,10 @@
         if (confirm('Êtes-vous sûr de vouloir supprimer ce vol ?')) {
             window.location.href = './deleteFlight?flightId=' + flightId;
         }
+    }
+
+    function reserveFlight(flightId) {
+        window.location.href = './reserve?flightId=' + flightId;
     }
 </script>
 
