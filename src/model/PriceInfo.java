@@ -10,7 +10,6 @@ public class PriceInfo {
     @Required
     private double unit_price;
     private double discount_percentage;
-    @Required
     private int number;
 
     public PriceInfo() {

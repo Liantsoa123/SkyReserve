@@ -99,7 +99,7 @@ CREATE TABLE price_info
 (
     seat_type_id        INTEGER,
     flight_id           INTEGER,
-    unit_price          NUMERIC(15, 2) NOT NULL default 0,
+    unit_price          NUMERIC(15, 2) NOT NULL ,
     discount_percentage NUMERIC(15, 2) NOT NULL default 0,
     number              INTEGER        NOT NULL default 0,
     PRIMARY KEY (seat_type_id, flight_id),
