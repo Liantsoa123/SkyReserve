@@ -38,11 +38,13 @@ public class PriceInfoController {
                 mv.setUrl("insertPriceInfo.jsp");
                 return mv;
             }
-            PriceInfoDAO.insert(priceInfo);
+            if (priceInfo.getUnit_price() > 0.0) {
+                PriceInfoDAO.insert(priceInfo);
+            }
             mv.add("message", "Price info inserted successfully");
 
         } catch (Exception e) {
-            mv.add("errorMessage", "An error occurred while inserting the price info: "+e.getMessage());
+            mv.add("errorMessage", "An error occurred while inserting the price info: " + e.getMessage());
         }
         return mv;
     }
