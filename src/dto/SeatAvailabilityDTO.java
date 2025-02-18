@@ -15,7 +15,7 @@ public class SeatAvailabilityDTO {
 
     // Constructeur avec tous les champs
     public SeatAvailabilityDTO(SeatType seatType, Plane plane, int totalSeats, int availableSeats) {
-        this.totalSeats = totalSeats;
+        this.seatType = seatType;
         this.plane = plane;
         this.totalSeats = totalSeats;
         this.availableSeats = availableSeats;
