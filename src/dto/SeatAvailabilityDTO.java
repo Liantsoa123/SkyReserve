@@ -2,7 +2,6 @@ package dto;
 
 public class SeatAvailabilityDTO {
     private int seatTypeId;
-    private String typeName;
     private int planeId;
     private int totalSeats;
     private int availableSeats;
@@ -12,9 +11,8 @@ public class SeatAvailabilityDTO {
     }
 
     // Constructeur avec tous les champs
-    public SeatAvailabilityDTO(int seatTypeId, String typeName, int planeId, int totalSeats, int availableSeats) {
+    public SeatAvailabilityDTO(int seatTypeId, int planeId, int totalSeats, int availableSeats) {
         this.seatTypeId = seatTypeId;
-        this.typeName = typeName;
         this.planeId = planeId;
         this.totalSeats = totalSeats;
         this.availableSeats = availableSeats;
@@ -27,14 +25,6 @@ public class SeatAvailabilityDTO {
 
     public void setSeatTypeId(int seatTypeId) {
         this.seatTypeId = seatTypeId;
-    }
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
     }
 
     public int getPlaneId() {

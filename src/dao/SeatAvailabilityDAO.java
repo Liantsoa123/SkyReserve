@@ -48,7 +48,6 @@ public class SeatAvailabilityDAO {
                 while (rs.next()) {
                     SeatAvailabilityDTO availability = new SeatAvailabilityDTO(
                             rs.getInt("seat_type_id"),
-                            rs.getString("type_name"),
                             rs.getInt("plane_id"),
                             rs.getInt("total_seats"),
                             rs.getInt("available_seats"));
