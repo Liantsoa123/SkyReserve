@@ -1,8 +1,11 @@
 package dto;
 
+import model.Plane;
+import model.SeatType;
+
 public class SeatAvailabilityDTO {
-    private int seatTypeId;
-    private int planeId;
+    private SeatType seatType;
+    private Plane plane;
     private int totalSeats;
     private int availableSeats;
 
@@ -11,28 +14,28 @@ public class SeatAvailabilityDTO {
     }
 
     // Constructeur avec tous les champs
-    public SeatAvailabilityDTO(int seatTypeId, int planeId, int totalSeats, int availableSeats) {
-        this.seatTypeId = seatTypeId;
-        this.planeId = planeId;
+    public SeatAvailabilityDTO(SeatType seatType, Plane plane, int totalSeats, int availableSeats) {
+        this.totalSeats = totalSeats;
+        this.plane = plane;
         this.totalSeats = totalSeats;
         this.availableSeats = availableSeats;
     }
 
     // Getters et Setters
-    public int getSeatTypeId() {
-        return seatTypeId;
+    public Plane getPlane() {
+        return plane;
     }
 
-    public void setSeatTypeId(int seatTypeId) {
-        this.seatTypeId = seatTypeId;
+    public void setPlane(Plane plane) {
+        this.plane = plane;
     }
 
-    public int getPlaneId() {
-        return planeId;
+    public SeatType getSeatType() {
+        return seatType;
     }
 
-    public void setPlaneId(int planeId) {
-        this.planeId = planeId;
+    public void setSeatType(SeatType seatType) {
+        this.seatType = seatType;
     }
 
     public int getTotalSeats() {

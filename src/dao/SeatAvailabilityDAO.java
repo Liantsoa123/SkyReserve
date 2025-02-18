@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dto.SeatAvailabilityDTO;
+import model.Plane;
+import model.SeatType;
 import utils.ConnectionBdd;
 
 public class SeatAvailabilityDAO {
@@ -46,9 +48,11 @@ public class SeatAvailabilityDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
+                    SeatType seatType = SeatTypeDAO.findById(rs.getInt("seat_type_id"));
+                    Plane plane = PlaneDAO.findById(rs.getInt("plane_id"));
                     SeatAvailabilityDTO availability = new SeatAvailabilityDTO(
-                            rs.getInt("seat_type_id"),
-                            rs.getInt("plane_id"),
+                            seatType,
+                            plane,
                             rs.getInt("total_seats"),
                             rs.getInt("available_seats"));
                     availabilityList.add(availability);
