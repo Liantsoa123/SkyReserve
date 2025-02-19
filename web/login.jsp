@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SkyReserve - Connexion</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/login.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
 </head>
 <body>
 <div class="login-container">
