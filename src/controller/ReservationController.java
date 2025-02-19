@@ -2,6 +2,7 @@ package controller;
 
 import java.util.List;
 
+import dao.CityDAO;
 import dao.FlightDAO;
 import dao.SeatAvailabilityDAO;
 import dao.SeatTypeDAO;
@@ -26,6 +27,8 @@ public class ReservationController {
         List<SeatAvailabilityDTO> seatAvailability = SeatAvailabilityDAO.getAvailableSeats(flightId);
         mv.add("seatAvailability", seatAvailability);
         mv.add("flight", flight);
+        mv.add("departure_city", CityDAO.findById(flight.getDeparture_city_id()));
+        mv.add("arrival_city" , CityDAO.findById(flight.getArrival_city_id()));
         mv.add("seatTypes", SeatTypeDAO.findAll());
         mv.setUrl("insertReservation.jsp");
         return mv;
