@@ -8,17 +8,24 @@ public class SeatAvailabilityDTO {
     private Plane plane;
     private int totalSeats;
     private int availableSeats;
+    private double unitPrice;
+    private double discountPercentage;
+    private int numberPromotions;
 
     // Constructeur par défaut
     public SeatAvailabilityDTO() {
     }
 
     // Constructeur avec tous les champs
-    public SeatAvailabilityDTO(SeatType seatType, Plane plane, int totalSeats, int availableSeats) {
+    public SeatAvailabilityDTO(SeatType seatType, Plane plane, int totalSeats, int availableSeats, double unitPrice,
+            double discountPercentage, int numberPromotions) {
         this.seatType = seatType;
         this.plane = plane;
         this.totalSeats = totalSeats;
         this.availableSeats = availableSeats;
+        this.unitPrice = unitPrice;
+        this.discountPercentage = discountPercentage;
+        this.numberPromotions = numberPromotions;
     }
 
     // Getters et Setters
@@ -52,5 +59,29 @@ public class SeatAvailabilityDTO {
 
     public void setAvailableSeats(int availableSeats) {
         this.availableSeats = availableSeats;
+    }
+
+    public double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public int getNumberPromotions() {
+        return numberPromotions;
+    }
+
+    public void setNumberPromotions(int numberPromotions) {
+        this.numberPromotions = numberPromotions;
     }
 }
