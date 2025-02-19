@@ -14,7 +14,7 @@ public class SeatTypeDAO {
         String query = "INSERT INTO seat_type (type_name) VALUES (?)";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, seatType.getType_name());
             pstmt.executeUpdate();
@@ -28,7 +28,7 @@ public class SeatTypeDAO {
         String query = "SELECT * FROM seat_type WHERE seat_type_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, seatTypeId);
 
@@ -36,8 +36,7 @@ public class SeatTypeDAO {
                 if (rs.next()) {
                     seatType = new SeatType(
                             rs.getInt("seat_type_id"),
-                            rs.getString("type_name")
-                    );
+                            rs.getString("type_name"));
                 }
             }
         }
@@ -51,14 +50,13 @@ public class SeatTypeDAO {
         String query = "SELECT * FROM seat_type";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
+                PreparedStatement pstmt = conn.prepareStatement(query);
+                ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 SeatType seatType = new SeatType(
                         rs.getInt("seat_type_id"),
-                        rs.getString("type_name")
-                );
+                        rs.getString("type_name"));
                 seatTypes.add(seatType);
             }
         }
@@ -71,7 +69,7 @@ public class SeatTypeDAO {
         String query = "UPDATE seat_type SET type_name = ? WHERE seat_type_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, seatType.getType_name());
             pstmt.setInt(2, seatType.getSeat_type_id());
@@ -85,10 +83,38 @@ public class SeatTypeDAO {
         String query = "DELETE FROM seat_type WHERE seat_type_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, seatTypeId);
             pstmt.executeUpdate();
         }
+    }
+
+    // Get seat types by plane ID
+    public static List<SeatType> findByPlaneId(int planeId) throws SQLException {
+        ConnectionBdd connectionBdd = new ConnectionBdd();
+        List<SeatType> seatTypes = new ArrayList<>();
+        String query = """
+                SELECT st.*
+                FROM seat_type st
+                JOIN plane_seats ps ON st.seat_type_id = ps.seat_type_id
+                WHERE ps.plane_id = ?
+                """;
+
+        try (Connection conn = connectionBdd.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, planeId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    SeatType seatType = new SeatType(
+                            rs.getInt("seat_type_id"),
+                            rs.getString("type_name"));
+                    seatTypes.add(seatType);
+                }
+            }
+        }
+        return seatTypes;
     }
 }
