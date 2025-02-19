@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/insertFlight.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dark-mode.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/reservation.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/messages.css">
     <script src="${pageContext.request.contextPath}/assets/js/theme.js" defer></script>
 
 </head>
@@ -33,6 +34,8 @@
 
 <div class="container">
     <h2>Réserver un Vol</h2>
+
+    <jsp:include page="components/messages.jsp"/>
 
     <div class="flight-details">
         <h3>Détails du Vol</h3>
@@ -68,12 +71,12 @@
 
     <h3>Formulaire de Réservation</h3>
     <form action="./insertReservation" method="post">
-        <input type="hidden" name="Reservation.flight_id" value="<%= flight.getFlight_id() %>">
+        <input type="hidden" name="flight_id" value="<%= flight.getFlight_id() %>">
 
         <div class="form-group">
             <label for="seatType">Type de siège:</label>
-            <select name="Reservation.seat_type_id" id="seatType" required>
-                <option value="">Sélectionner un type de siège</option>
+            <select name="seat_type_id" id="seatType" >
+                <option value="-1">Sélectionner un type de siège</option>
                 <% for (SeatType seatType : seatTypes) { %>
                 <option value="<%= seatType.getSeat_type_id() %>">
                     <%= seatType.getType_name() %>
@@ -86,9 +89,8 @@
             <label for="seatsNumber">Nombre de places:</label>
             <input type="number"
                    id="seatsNumber"
-                   name="Reservation.seats_number"
-                   min="1"
-                   required>
+                   name="seats_number"
+                   min="1">
         </div>
 
         <div class="form-actions">
