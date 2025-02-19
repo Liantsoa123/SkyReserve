@@ -36,7 +36,7 @@ public class ReservationController {
         mv.add("flight", flight);
         mv.add("departure_city", CityDAO.findById(flight.getDeparture_city_id()));
         mv.add("arrival_city", CityDAO.findById(flight.getArrival_city_id()));
-        mv.add("seatTypes", SeatTypeDAO.findAll());
+        mv.add("seatTypes", SeatTypeDAO.findByPlaneId(flight.getPlane_id()));
         mv.setUrl("insertReservation.jsp");
         return mv;
     }
@@ -54,7 +54,7 @@ public class ReservationController {
             mv.add("flight", flight);
             mv.add("departure_city", CityDAO.findById(flight.getDeparture_city_id()));
             mv.add("arrival_city", CityDAO.findById(flight.getArrival_city_id()));
-            mv.add("seatTypes", SeatTypeDAO.findAll());
+            mv.add("seatTypes", SeatTypeDAO.findByPlaneId(flight.getPlane_id()));
             mv.setUrl("insertReservation.jsp");
             mv.add("url", "/reserve");
 
