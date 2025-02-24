@@ -5,6 +5,15 @@
     Flight flight = (Flight) request.getAttribute("flight");
     List<PriceInfo> priceInfos = (List<PriceInfo>) request.getAttribute("priceInfos");
     List<SeatType> seatTypes = (List<SeatType>) request.getAttribute("seatTypes");
+    int id = request.getAttribute("idCurrent") != null ? Integer.parseInt(request.getAttribute("idCurrent").toString()) : -1;
+    HashMap<String, String> error = new HashMap<String, String>();
+    if (request.getAttribute("error") != null) {
+        error = (HashMap<String, String>) request.getAttribute("error");
+    }
+    PriceInfo currentPriceInfo = null;
+    if (request.getAttribute("currentPriceInfo") != null) {
+        currentPriceInfo = (PriceInfo) request.getAttribute("currentPriceInfo");
+    }
 %>
 
 <!DOCTYPE html>
@@ -16,13 +25,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/insertFlight.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dark-mode.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/messages.css">
+
 </head>
 <body>
 
 <jsp:include page="components/navbar.jsp"/>
 
 <div class="container">
-    <h2>Prix du Vol <%= flight.getFlight_id() %></h2>
+    <h2>Prix du Vol <%= flight.getFlight_id() %>
+    </h2>
 
     <div class="price-forms">
         <% for (SeatType seatType : seatTypes) {
@@ -34,11 +46,24 @@
                 }
             }
         %>
+        <% if (seatType.getSeat_type_id() == id) {
+            priceInfo = currentPriceInfo;
+        %>
+
+        <jsp:include page="components/messages.jsp"/>
+        <% } %>
         <form action="./updatePriceInfo" method="post" class="price-form">
-            <h3><%= seatType.getType_name() %></h3>
+            <h3><%= seatType.getType_name() %>
+            </h3>
             <input type="hidden" name="PriceInfo.flight_id" value="<%= flight.getFlight_id() %>">
             <input type="hidden" name="PriceInfo.seat_type_id" value="<%= seatType.getSeat_type_id() %>">
 
+            <% if (seatType.getSeat_type_id() == id) { %>
+            <% if (error.get("unit_price") != null) { %>
+            <div class="error-message"><%= error.get("unit_price") %>
+            </div>
+            <% }
+            } %>
             <div class="form-group">
                 <label for="unit_price_<%= seatType.getSeat_type_id() %>">Prix unitaire:</label>
                 <input type="number"
@@ -50,6 +75,12 @@
                        required>
             </div>
 
+            <% if (seatType.getSeat_type_id() == id) { %>
+            <% if (error.get("discount_percentage") != null) { %>
+            <div class="error-message"><%= error.get("discount_percentage") %>
+            </div>
+            <% }
+            } %>
             <div class="form-group">
                 <label for="discount_<%= seatType.getSeat_type_id() %>">Réduction (%):</label>
                 <input type="number"
@@ -61,6 +92,13 @@
                        value="<%= priceInfo != null ? priceInfo.getDiscount_percentage() : 0 %>">
             </div>
 
+
+            <% if (seatType.getSeat_type_id() == id) { %>
+            <% if (error.get("number") != null) { %>
+            <div class="error-message"><%= error.get("number") %>
+            </div>
+            <% }
+            } %>
             <div class="form-group">
                 <label for="number_<%= seatType.getSeat_type_id() %>">Nombre de sièges en promotion:</label>
                 <input type="number"
