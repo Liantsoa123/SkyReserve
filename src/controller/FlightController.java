@@ -126,12 +126,12 @@ public class FlightController {
         Flight flight = FlightDAO.findById(flightId);
         List<SeatType> seatTypes = SeatTypeDAO.findByPlaneId(flight.getPlane_id());
         List<PriceInfo> priceInfos = PriceInfoDAO.findByFlightId(flightId);
-        if (!priceInfos.isEmpty()) {
-            mv.add("priceInfos", priceInfos);
-        }
+        mv.add("priceInfos", priceInfos);
         mv.add("flight", flight);
         mv.add("seatTypes", seatTypes);
         mv.setUrl("flightDetails.jsp");
+        mv.add("departureCity", CityDAO.findById(flight.getDeparture_city_id()));
+        mv.add("arrivalCity", CityDAO.findById(flight.getArrival_city_id()));
         return mv;
     }
 
