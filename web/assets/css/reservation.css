@@ -1,0 +1,19 @@
+.availability-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.availability-card {
+    background: var(--surface-color);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.seats-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}

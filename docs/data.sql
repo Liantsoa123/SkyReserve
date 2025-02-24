@@ -49,3 +49,9 @@ VALUES (1, 1, 150),
        (3, 6, 40),
        (4, 6, 10);
 
+INSERT INTO reservation_status (reseravtion_name)
+VALUES ('En attente'),
+       ('Confirmé'),
+       ('En cours'),
+       ('Terminé'),
+       ('Annulé');

@@ -7,24 +7,24 @@ public class Reservation {
     private Timestamp reservation_date;
     private int seats_number;
     private boolean has_promotion;
-    private ReservationStatus reservation_status;
-    private SeatType seat_type;
-    private Flight flight;
-    private User user;
+    private int reservation_status_id;
+    private int seat_type_id;
+    private int flight_id;
+    private int user_id;
 
     public Reservation() {
     }
 
     public Reservation(int reservation_id, Timestamp reservation_date, int seats_number, boolean has_promotion,
-            ReservationStatus reservation_status, SeatType seat_type, Flight flight, User user) {
+                       int reservation_status_id, int seat_type_id, int flight_id, int user_id) {
         this.reservation_id = reservation_id;
         this.reservation_date = reservation_date;
         this.seats_number = seats_number;
         this.has_promotion = has_promotion;
-        this.reservation_status = reservation_status;
-        this.seat_type = seat_type;
-        this.flight = flight;
-        this.user = user;
+        this.reservation_status_id = reservation_status_id;
+        this.seat_type_id = seat_type_id;
+        this.flight_id = flight_id;
+        this.user_id = user_id;
     }
 
     public int getReservation_id() {
@@ -59,35 +59,37 @@ public class Reservation {
         this.has_promotion = has_promotion;
     }
 
-    public ReservationStatus getReservation_status() {
-        return reservation_status;
+    public int getReservation_status_id() {
+        return reservation_status_id;
     }
 
-    public void setReservation_status(ReservationStatus reservation_status) {
-        this.reservation_status = reservation_status;
+    public void setReservation_status_id(int reservation_status_id) {
+        this.reservation_status_id = reservation_status_id;
     }
 
-    public SeatType getSeat_type() {
-        return seat_type;
+    public int getSeat_type_id() {
+        return seat_type_id;
     }
 
-    public void setSeat_type(SeatType seat_type) {
-        this.seat_type = seat_type;
+    public void setSeat_type_id(int seat_type_id) {
+        this.seat_type_id = seat_type_id;
     }
 
-    public Flight getFlight() {
-        return flight;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setFlight(Flight flight) {
-        this.flight = flight;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public User getUser() {
-        return user;
+    public int getFlight_id() {
+        return flight_id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setFlight_id(int flight_id) {
+        this.flight_id = flight_id;
     }
+
+
 }

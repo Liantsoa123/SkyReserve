@@ -5,7 +5,7 @@
 %>
 
 <!DOCTYPE html>
-<html data-theme="light" >
+<html data-theme="light">
 <head>
     <meta charset="UTF-8">
     <title>SkyReserve - Tableau de bord</title>
@@ -26,6 +26,11 @@
     </div>
 
     <div class="quick-actions">
+
+
+        <%
+            if (currentUser.getRole().equals("admin")) {
+        %>
         <a href="./showAllFlights" class="action-card">
             <i class="fas fa-plane"></i>
             <h3>Gestion des Vols</h3>
@@ -43,6 +48,18 @@
             <h3>Paramètres</h3>
             <p>Configurer les règles de réservation</p>
         </a>
+        <% } else {%>
+        <a href="./showAllFlights" class="action-card">
+            <i class="fas fa-plane"></i>
+            <h3>Vols</h3>
+            <p>Voir les vols disponibles</p>
+        </a>
+        <a href="./showMyReservations" class="action-card">
+            <i class="fas fa-ticket-alt"></i>
+            <h3>Mes Réservations</h3>
+            <p>Voir et gérer vos réservations</p>
+        </a>
+        <% } %>
     </div>
 </div>
 
