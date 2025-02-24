@@ -129,9 +129,42 @@ public class FlightController {
         mv.add("priceInfos", priceInfos);
         mv.add("flight", flight);
         mv.add("seatTypes", seatTypes);
-        mv.setUrl("flightDetails.jsp");
+        mv.setUrl("flightPriceInfo.jsp");
         mv.add("departureCity", CityDAO.findById(flight.getDeparture_city_id()));
         mv.add("arrivalCity", CityDAO.findById(flight.getArrival_city_id()));
+        return mv;
+    }
+
+    @Post
+    @Url("/updatePriceInfo")
+    @AuthMethod("ADMIN")
+    public Modelview updatePriceInfo(@RequestParamObject("PriceInfo") PriceInfo priceInfo) throws  Exception{
+        Modelview mv = new Modelview();
+
+        mv.add("currentPriceInfo", priceInfo);
+        mv.add("url", "/showFlightSetting?flightId=" + priceInfo.getFlight_id());
+        mv.add("idCurrent", priceInfo.getSeat_type_id());
+        try {
+            if (priceInfo.getUnit_price() < 0 || priceInfo.getDiscount_percentage() < 0 || priceInfo.getNumber() < 0) {
+                mv.add("errorMessage", "Price, discount and number must be positive");
+                return mv;
+            }else{
+                PriceInfoDAO.update(priceInfo);
+                mv.add("message", "Price info updated successfully");
+                Flight flight = FlightDAO.findById(priceInfo.getFlight_id());
+                List<SeatType> seatTypes = SeatTypeDAO.findByPlaneId(flight.getPlane_id());
+                List<PriceInfo> priceInfos = PriceInfoDAO.findByFlightId(priceInfo.getFlight_id());
+                mv.add("priceInfos", priceInfos);
+                mv.add("flight", flight);
+                mv.add("seatTypes", seatTypes);
+                mv.add("departureCity", CityDAO.findById(flight.getDeparture_city_id()));
+                mv.add("arrivalCity", CityDAO.findById(flight.getArrival_city_id()));
+            }
+
+        } catch (Exception e) {
+            mv.add("errorMessage", "An error occurred while inserting the price info: " + e.getMessage());
+        }
+        mv.setUrl("flightPriceInfo.jsp");
         return mv;
     }
 
