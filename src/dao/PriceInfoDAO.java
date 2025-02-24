@@ -16,9 +16,9 @@ public class PriceInfoDAO {
         String query = "INSERT INTO price_info (seat_type_id, flight_id, unit_price, discount_percentage, number) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setInt(1,priceInfo.getSeat_type_id());
+            pstmt.setInt(1, priceInfo.getSeat_type_id());
             pstmt.setInt(2, priceInfo.getFlight_id());
             pstmt.setDouble(3, priceInfo.getUnit_price());
             pstmt.setDouble(4, priceInfo.getDiscount_percentage());
@@ -34,7 +34,7 @@ public class PriceInfoDAO {
         String query = "SELECT * FROM price_info WHERE seat_type_id = ? AND flight_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, seatTypeId);
             pstmt.setInt(2, flightId);
@@ -46,8 +46,7 @@ public class PriceInfoDAO {
                             rs.getInt("flight_id"),
                             rs.getDouble("unit_price"),
                             rs.getDouble("discount_percentage"),
-                            rs.getInt("number")
-                    );
+                            rs.getInt("number"));
                 }
             }
         }
@@ -61,8 +60,8 @@ public class PriceInfoDAO {
         String query = "SELECT * FROM price_info";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
+                PreparedStatement pstmt = conn.prepareStatement(query);
+                ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 PriceInfo priceInfo = new PriceInfo(
@@ -70,8 +69,7 @@ public class PriceInfoDAO {
                         rs.getInt("flight_id"),
                         rs.getDouble("unit_price"),
                         rs.getDouble("discount_percentage"),
-                        rs.getInt("number")
-                );
+                        rs.getInt("number"));
                 priceInfos.add(priceInfo);
             }
         }
@@ -84,7 +82,7 @@ public class PriceInfoDAO {
         String query = "UPDATE price_info SET unit_price = ?, discount_percentage = ?, number = ? WHERE seat_type_id = ? AND flight_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setDouble(1, priceInfo.getUnit_price());
             pstmt.setDouble(2, priceInfo.getDiscount_percentage());
@@ -101,11 +99,37 @@ public class PriceInfoDAO {
         String query = "DELETE FROM price_info WHERE seat_type_id = ? AND flight_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, seatTypeId);
             pstmt.setInt(2, flightId);
             pstmt.executeUpdate();
         }
+    }
+
+    // Read by flight_id
+    public static List<PriceInfo> findByFlightId(int flightId) throws SQLException {
+        ConnectionBdd connectionBdd = new ConnectionBdd();
+        List<PriceInfo> priceInfos = new ArrayList<>();
+        String query = "SELECT * FROM price_info WHERE flight_id = ?";
+
+        try (Connection conn = connectionBdd.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, flightId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    PriceInfo priceInfo = new PriceInfo(
+                            rs.getInt("seat_type_id"),
+                            rs.getInt("flight_id"),
+                            rs.getDouble("unit_price"),
+                            rs.getDouble("discount_percentage"),
+                            rs.getInt("number"));
+                    priceInfos.add(priceInfo);
+                }
+            }
+        }
+        return priceInfos;
     }
 }
