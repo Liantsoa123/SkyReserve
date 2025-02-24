@@ -1,13 +1,14 @@
 package controller;
 
-import dao.CityDAO;
-import dao.FlightDAO;
-import dao.PlaneDAO;
+import dao.*;
 import mg.noobframework.annotation.*;
 import mg.noobframework.modelview.Modelview;
 import model.Flight;
+import model.PriceInfo;
+import model.SeatType;
 
 import java.sql.Date;
+import java.util.List;
 
 @Controller
 public class FlightController {
@@ -32,24 +33,25 @@ public class FlightController {
         try {
             mv.add("cities", CityDAO.findAll());
             mv.add("planes", PlaneDAO.findAll());
-            //Check value
+            // Check value
             if (flight.getDeparture_city_id() == flight.getArrival_city_id()) {
                 mv.add("errorMessage", "Departure city and arrival city must be different");
                 mv.setUrl("insertFlight.jsp");
                 return mv;
             }
-            if (flight.getDeparture_date().after(flight.getArrival_date()) || flight.getDeparture_date().equals(flight.getArrival_date())) {
+            if (flight.getDeparture_date().after(flight.getArrival_date())
+                    || flight.getDeparture_date().equals(flight.getArrival_date())) {
                 mv.add("errorMessage", "Departure date must be before arrival date");
                 mv.setUrl("insertFlight.jsp");
                 return mv;
             }
 
-            //Update
+            // Update
             if (flight.getFlight_id() > 0) {
                 FlightDAO.update(flight);
                 mv.add("message", "Flight updated successfully");
             }
-            //Insert
+            // Insert
             else {
                 FlightDAO.insert(flight);
                 mv.add("message", "Flight inserted successfully");
@@ -76,7 +78,8 @@ public class FlightController {
     @Post
     @Url("/searchFlights")
     public Modelview searchFlight(@RequestParam("departureCityId") int departureCityId,
-                                  @RequestParam("arrivalCityId") int arrivalCityId, @RequestParam("departureDate") Date departureDate) throws Exception {
+            @RequestParam("arrivalCityId") int arrivalCityId, @RequestParam("departureDate") Date departureDate)
+            throws Exception {
         Modelview mv = new Modelview();
         mv.add("flights", FlightDAO.searchFlights(departureCityId, arrivalCityId, departureDate));
         mv.add("cities", CityDAO.findAll());
@@ -112,6 +115,23 @@ public class FlightController {
         mv.add("cities", CityDAO.findAll());
         mv.add("planes", PlaneDAO.findAll());
         mv.setUrl("insertFlight.jsp");
+        return mv;
+    }
+
+    @Get
+    @Url("/showFlightSetting")
+    @AuthMethod("ADMIN")
+    public Modelview showFlightDetails(@RequestParam("flightId") int flightId) throws Exception {
+        Modelview mv = new Modelview();
+        Flight flight = FlightDAO.findById(flightId);
+        List<SeatType> seatTypes = SeatTypeDAO.findByPlaneId(flight.getPlane_id());
+        List<PriceInfo> priceInfos = PriceInfoDAO.findByFlightId(flightId);
+        if (!priceInfos.isEmpty()) {
+            mv.add("priceInfos", priceInfos);
+        }
+        mv.add("flight", flight);
+        mv.add("seatTypes", seatTypes);
+        mv.setUrl("flightDetails.jsp");
         return mv;
     }
 
