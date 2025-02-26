@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dark-mode.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/messages.css">
-
+    <script src="${pageContext.request.contextPath}/assets/js/theme.js" defer></script>
 </head>
 <body>
 
