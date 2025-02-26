@@ -13,7 +13,6 @@
         <a href="./dashboard.jsp" ${pageContext.request.servletPath == '/dashboard.jsp' ? 'class="active"' : ''}>Dashboard</a>
         <a href="./showAllFlights" ${pageContext.request.servletPath == '/listsFlight.jsp' || pageContext.request.servletPath == '/insertFlight.jsp' ? 'class="active"' : ''}>Vols</a>
         <% if (currentUser.getRole().equals("admin")) { %>
-        <a href="./showInsertPriceInfo" ${pageContext.request.servletPath == '/insertPriceInfo.jsp' ? 'class="active"' : ''}>Prix Vols</a>
         <a href="./showSettingReservation" ${pageContext.request.servletPath == '/settingReservation.jsp' ? 'class="active"' : ''}>Paramètre de Reservation</a>
         <% } else {%>
         <a href="./showMyReservations" ${pageContext.request.servletPath == '/myReservations.jsp' ? 'class="active"' : ''}>Mes Réservations</a>

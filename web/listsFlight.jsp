@@ -135,10 +135,14 @@
                     <button onclick="deleteFlight(<%= flight.getFlight_id() %>)" class="btn-delete" title="Supprimer">
                         <i class="fas fa-trash"></i>
                     </button>
+                    <button onclick="showPriceInfo(<%= flight.getFlight_id() %>)" class="btn-edit" title="Prix">
+                        <i class="fas fa-tag"></i>
+                    </button>
                     <% } else { %>
                     <button onclick="reserveFlight(<%= flight.getFlight_id() %>)" class="btn-reserve" title="Réserver">
                         <i class="fas fa-plane-departure"></i>
                     </button>
+
                     <% } %>
                 </td>
             </tr>
@@ -166,6 +170,10 @@
 
     function reserveFlight(flightId) {
         window.location.href = './reserve?flightId=' + flightId;
+    }
+
+    function showPriceInfo(flightId) {
+        window.location.href = './showFlightSetting?flightId=' + flightId;
     }
 </script>
 
