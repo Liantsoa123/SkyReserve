@@ -14,4 +14,8 @@ public class TimestampUtils {
         return Duration.between(instant1, instant2).toHours();
     }
 
+    public static Timestamp getCurrentTimestamp() {
+        return new Timestamp(System.currentTimeMillis());
+    }
+
 }

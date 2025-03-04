@@ -18,30 +18,30 @@ public class SeatAvailabilityDAO {
         ConnectionBdd connectionBdd = new ConnectionBdd();
 
         String query = """
-                             WITH reserved_seats AS (
-                    SELECT
-                        seat_type_id,
-                        SUM(seats_number) as reserved_count
-                    FROM reservation
-                    WHERE flight_id = ?
-                      AND reservation_status_id != (SELECT resrvation_status_id FROM reservation_status WHERE reseravtion_name = 'Annulé')
-                    GROUP BY seat_type_id
-                )
-                SELECT
-                    st.seat_type_id,
-                    st.type_name,
-                    ps.plane_id,
-                    ps.number as total_seats,
-                    (ps.number - rs.reserved_count) as available_seats,
-                    pi.unit_price,
-                    pi.discount_percentage,
-                    pi.number as price_info_number
-                FROM seat_type st
-                         JOIN plane_seats ps ON st.seat_type_id = ps.seat_type_id
-                         JOIN flight f ON f.plane_id = ps.plane_id
-                         LEFT JOIN reserved_seats rs ON st.seat_type_id = rs.seat_type_id
-                         LEFT JOIN price_info pi ON st.seat_type_id = pi.seat_type_id AND f.flight_id = pi.flight_id
-                WHERE f.flight_id = ?
+                  WITH reserved_seats AS (
+                      SELECT
+                          seat_type_id,
+                          SUM(seats_number) as reserved_count
+                      FROM reservation
+                      WHERE flight_id = ?
+                      GROUP BY seat_type_id
+                  )
+                  SELECT
+                      st.seat_type_id,
+                      st.type_name,
+                      ps.plane_id,
+                      ps.number as total_seats,
+                      (ps.number - COALESCE(rs.reserved_count, 0)) as available_seats,
+                      pi.unit_price,
+                      pi.discount_percentage,
+                      pi.number as price_info_number
+                  FROM seat_type st
+                           JOIN plane_seats ps ON st.seat_type_id = ps.seat_type_id
+                           JOIN flight f ON f.plane_id = ps.plane_id
+                           LEFT JOIN reserved_seats rs ON st.seat_type_id = rs.seat_type_id
+                           LEFT JOIN price_info pi ON st.seat_type_id = pi.seat_type_id AND f.flight_id = pi.flight_id
+                  WHERE f.flight_id = ?;
+                  
                 """;
 
         try (Connection conn = connectionBdd.getConnection();
@@ -89,7 +89,7 @@ public class SeatAvailabilityDAO {
                        st.type_name,
                        ps.plane_id,
                        ps.number as total_seats,
-                       (ps.number - rs.reserved_count) as available_seats,
+                       (ps.number - COALESCE(rs.reserved_count, 0 )) as available_seats,
                        pi.unit_price,
                        pi.discount_percentage,
                        pi.number as price_info_number

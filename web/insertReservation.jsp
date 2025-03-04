@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="model.Flight" %>
-<%@ page import="model.SeatType" %>
 <%@ page import="dto.SeatAvailabilityDTO" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="model.City" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="model.*" %>
 <%
     Flight flight = (Flight) request.getAttribute("flight");
     List<SeatType> seatTypes = (List<SeatType>) request.getAttribute("seatTypes");
@@ -12,6 +11,17 @@
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
     City departure_city = (City) request.getAttribute("departure_city");
     City arrival_city = (City) request.getAttribute("arrival_city");
+    int userId = ((User) session.getAttribute("user")).getUser_id();
+    String huhu = (String) request.getAttribute("huhu");
+    HashMap<String, String> error = new HashMap<String, String>();
+    if (request.getAttribute("error") != null) {
+        error = (HashMap<String, String>) request.getAttribute("error");
+    }
+    Reservation reservation = null;
+    if (request.getAttribute("reservation") != null) {
+        reservation = (Reservation) request.getAttribute("reservation");
+    }
+
 %>
 
 <!DOCTYPE html>
@@ -30,6 +40,7 @@
 </head>
 <body>
 
+
 <jsp:include page="components/navbar.jsp"/>
 
 <div class="container">
@@ -38,9 +49,12 @@
     <jsp:include page="components/messages.jsp"/>
 
     <div class="flight-details">
-        <h3>Détails du Vol</h3>
-        <p><strong>Ville de depart:</strong> <%=departure_city.getCity_name()%></p>
-        <p><strong>Ville d'arrivée:</strong> <%=arrival_city.getCity_name()%></p>
+        <h3>Détails du Vol <%=huhu%>
+        </h3>
+        <p><strong>Ville de depart:</strong> <%=departure_city.getCity_name()%>
+        </p>
+        <p><strong>Ville d'arrivée:</strong> <%=arrival_city.getCity_name()%>
+        </p>
         <p><strong>Date de départ:</strong> <%= dateFormat.format(flight.getDeparture_date()) %>
         </p>
         <p><strong>Date d'arrivée:</strong> <%= dateFormat.format(flight.getArrival_date()) %>
@@ -57,11 +71,11 @@
                 <span>Places disponibles: <%= availability.getAvailableSeats() %></span>
                 <span>Total: <%= availability.getTotalSeats() %></span>
             </div>
-            <div class="seats-info" >
+            <div class="seats-info">
                 <span>Prix:</span>
                 <span><%=availability.getUnitPrice()%></span>
             </div>
-            <div class="seats-info" >
+            <div class="seats-info">
                 <span>Promotion: <%=availability.getDiscountPercentage()%></span>
                 <span>nombres: <%=availability.getNumberPromotions()%></span>
             </div>
@@ -71,25 +85,51 @@
 
     <h3>Formulaire de Réservation</h3>
     <form action="./insertReservation" method="post">
-        <input type="hidden" name="flight_id" value="<%= flight.getFlight_id() %>">
+        <input type="hidden" name="url" value="/reserve?flightId=<%=flight.getFlight_id()%>">
+        <input type="hidden" name="Reservation.reservation_id" value="-1">
+        <input type="hidden" name="Reservation.flight_id" value="<%= flight.getFlight_id() %>">
+        <input type="hidden" name="Reservation.user_id" value="<%= userId %>">
 
         <div class="form-group">
             <label for="seatType">Type de siège:</label>
-            <select name="seat_type_id" id="seatType" >
+            <select name="Reservation.seat_type_id" id="seatType">
                 <option value="-1">Sélectionner un type de siège</option>
-                <% for (SeatType seatType : seatTypes) { %>
-                <option value="<%= seatType.getSeat_type_id() %>">
+                <% for (SeatType seatType : seatTypes) {
+                     String  selected = "";
+                     if (reservation != null) {
+                         selected = (reservation.getSeat_type_id() == seatType.getSeat_type_id())
+                                 ? "selected"
+                                 : "";
+                     } else {
+                         selected = (request.getParameter("Reservation.seat_type_id") != null
+                                 && Integer.parseInt(request.getParameter("Reservation.seat_type_id")) == seatType.getSeat_type_id())
+                                 ? "selected"
+                                 : "";
+                     }
+                %>
+                <option value="<%= seatType.getSeat_type_id() %>" <%= selected %>>
                     <%= seatType.getType_name() %>
                 </option>
                 <% } %>
             </select>
         </div>
 
+        <% if (error.get("seats_number") != null) {%>
+        <div class="error-message"><%=error.get("seats_number")%>
+        </div>
+        <% } %>
         <div class="form-group">
             <label for="seatsNumber">Nombre de places:</label>
             <input type="number"
                    id="seatsNumber"
-                   name="seats_number"
+                   name="Reservation.seats_number"
+                <%
+                    if (reservation != null) {
+                    %>
+                   value="<%= reservation.getSeats_number() %>"
+                <%
+                    }
+                    %>
                    min="1">
         </div>
 

@@ -1,15 +1,22 @@
 package model;
 
+import mg.noobframework.annotation.Required;
+
 import java.sql.Timestamp;
 
 public class Reservation {
+    @Required
     private int reservation_id;
     private Timestamp reservation_date;
+    @Required
     private int seats_number;
     private boolean has_promotion;
     private int reservation_status_id;
+    @Required
     private int seat_type_id;
+    @Required
     private int flight_id;
+    @Required
     private int user_id;
 
     public Reservation() {
