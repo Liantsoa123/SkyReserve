@@ -42,72 +42,54 @@ public class ReservationController {
     }
 
     @Post
-    @Url("/insertReservation")
     @AuthMethod("Client")
-    public Modelview insertReserve(@RequestParam("flight_id") int flightId,
-            @RequestParam("seats_number") int seatsNumber, @RequestParam("seat_type_id") int seatypeId) {
+    @Url("/insertReservation")
+    public Modelview insertReservation(@RequestParamObject("Reservation") Reservation reservation) {
         Modelview mv = new Modelview();
+
         try {
-            Flight flight = FlightDAO.findById(flightId);
-            List<SeatAvailabilityDTO> seatAvailability = SeatAvailabilityDAO.getAvailableSeats(flightId);
+            Flight flight = FlightDAO.findById(reservation.getFlight_id());
+            List<SeatAvailabilityDTO> seatAvailability = SeatAvailabilityDAO.getAvailableSeats(reservation.getFlight_id());
             mv.add("seatAvailability", seatAvailability);
             mv.add("flight", flight);
             mv.add("departure_city", CityDAO.findById(flight.getDeparture_city_id()));
             mv.add("arrival_city", CityDAO.findById(flight.getArrival_city_id()));
             mv.add("seatTypes", SeatTypeDAO.findByPlaneId(flight.getPlane_id()));
             mv.setUrl("insertReservation.jsp");
-            mv.add("url", "/reserve");
 
-            // Check setting reservation
-            SettingReservation settingReservation = SettingReservationDAO.findById(1);
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            if (TimestampUtils.getHoursBetweenTimestamps(timestamp, flight.getDeparture_date()) < settingReservation
-                    .getReservation()) {
-                mv.add("errrorMessage", "Reservation Impossible pour ce vol");
+            mv.add("reservation", reservation);
+
+            SeatAvailabilityDTO seatAvailabilityDTO = SeatAvailabilityDAO.getAvailableSeatsBySeatId(reservation.getFlight_id(), reservation.getSeat_type_id());
+            // Check if there are enough seats available
+            if (seatAvailabilityDTO.getAvailableSeats() < reservation.getSeats_number()) {
+                mv.add("errorMessage", "Not enough seats available for this type");
+                return mv;
             }
 
-            SeatAvailabilityDTO seatAvailabilityDTO = SeatAvailabilityDAO.getAvailableSeatsBySeatId(flightId,
-                    seatypeId);
-
-            Reservation reservation = new Reservation();
-            reservation.setReservation_id(1);
-            reservation.setReservation_date(timestamp);
-            reservation.setReservation_status_id(1);
-            reservation.setSeat_type_id(seatypeId);
-            reservation.setFlight_id(flightId);
-            reservation.setUser_id(((User) getMysession().get("user")).getUser_id());
-
-            NumberPromotion numberPromotion = NumberPromotionDAO.findByIdFlight(flightId);
-
-            // Check nombre place disponible
-            if (seatsNumber > seatAvailabilityDTO.getAvailableSeats()) {
-                mv.add("errorMessage", "Nombre de place insuffisant pour");
-            }
-            reservation.setSeats_number(seatsNumber);
-
-            // Check Promotion
-            if (seatAvailabilityDTO.getDiscountPercentage() > 0
-                    && seatAvailabilityDTO.getNumberPromotions() <= seatsNumber) {
-                if (numberPromotion != null) {
-                    if (numberPromotion.getNumber() > 0) {
-                        numberPromotion.setNumber(numberPromotion.getNumber() - 1);
-                        reservation.setHas_promotion(true);
-                    }
-                } else {
+            //Check if the user has a promotion
+            if (seatAvailabilityDTO.getNumberPromotions() > 0) {
+                reservation.setHas_promotion(false);
+                NumberPromotion numberPromotion = NumberPromotionDAO.findByIdFlight(reservation.getFlight_id());
+                if (numberPromotion != null && numberPromotion.getNumber() > 0) {
                     reservation.setHas_promotion(true);
+                    numberPromotion.setNumber(numberPromotion.getNumber() - 1);
+                    NumberPromotionDAO.update(numberPromotion);
+                } else {
+                    reservation.setHas_promotion(false);
                 }
             }
 
-            // if Reglo
+            //insertion of the reservation
+            reservation.setReservation_date(TimestampUtils.getCurrentTimestamp());
+            reservation.setReservation_status_id(1);
             ReservationDAO.insert(reservation);
-            if (numberPromotion != null) {
-                NumberPromotionDAO.update(numberPromotion);
-            }
-            mv.add("message", "Reservation finish ");
+            mv.add("message", "Reservation inserted successfully avec promotion=" + reservation.isHas_promotion());
+            //UDPATE SEAT AVAILABILITY
+            seatAvailability = SeatAvailabilityDAO.getAvailableSeats(reservation.getFlight_id());
+            mv.add("seatAvailability", seatAvailability);
         } catch (Exception e) {
-            mv.add("errorMessage", "Error while trying to insert reservation " + e.getMessage());
+            mv.add("errorMessage", "Error while trying to reserve flight. " + e.getMessage());
         }
-
         return mv;
     }
 }
