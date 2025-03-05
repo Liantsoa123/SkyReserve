@@ -34,6 +34,7 @@
     <jsp:include page="components/messages.jsp"/>
 
     <form action="./insertSettingReservation" method="post">
+        <input type="hidden" name="url" value="/showSettingReservation" >
 
         <input type="hidden" name="SettingReservation.setting_reservation_id"
             <%
@@ -50,16 +51,16 @@
         <% } %>
         <div class="form-group">
             <label for="reservation">Nombre d'heures avant le vol pour la réservation:</label>
-            <input type="number"
+            <input type="text"
                    id="reservation"
                    step="0.1"
                    name="SettingReservation.reservation"
                 <%
-                        if (settingReservation != null) { %>
-                   value="<%=settingReservation.getReservation()%>"
+                        if (request.getParameter("SettingReservation.reservation")!= null) { %>
+                   value="<%=request.getParameter("SettingReservation.reservation")%>"
                 <%
                     } else { %>
-                   value="<%=request.getParameter("SettingReservation.reservation")!=null?request.getParameter("SettingReservation.reservation"):""%>"
+                   value="<%=settingReservation!=null?settingReservation.getReservation():""%>"
                 <% } %> >
         </div>
 
@@ -69,16 +70,16 @@
         <% } %>
         <div class="form-group">
             <label for="cancelation">Critère d'annulation (Nombre d'heures avant le vol):</label>
-            <input type="number"
+            <input type="text"
                    id="cancelation"
                    name="SettingReservation.cancelation"
                    step="0.1"
                 <%
-                        if (settingReservation != null) { %>
-                   value="<%=settingReservation.getCancelation()%>"
+                        if (request.getParameter("SettingReservation.cancelation") != null) { %>
+                   value="<%=request.getParameter("SettingReservation.cancelation")%>"
                 <%
                     } else { %>
-                   value="<%=request.getParameter("SettingReservation.cancelation")!=null?request.getParameter("SettingReservation.cancelation"):""%>"
+                   value="<%=settingReservation!=null?settingReservation.getCancelation():""%>"
                 <% } %> >
         </div>
 
