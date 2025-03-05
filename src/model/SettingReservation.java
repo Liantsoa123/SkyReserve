@@ -1,12 +1,15 @@
 package model;
 
+import mg.noobframework.annotation.Numerique;
 import mg.noobframework.annotation.Required;
 
 public class SettingReservation {
     private int setting_reservation_id;
     @Required
+    @Numerique(min = 0 , max = 24)
     private double reservation;
     @Required
+    @Numerique(min = 0, max = 24)
     private double cancelation;
 
     public SettingReservation() {
