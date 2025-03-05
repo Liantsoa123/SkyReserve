@@ -26,7 +26,6 @@ public class SettingReservationController {
     public Modelview insertSettingReservation(@RequestParamObject("SettingReservation") SettingReservation settingReservation) {
         Modelview mv = new Modelview();
         mv.add("settingReservation", settingReservation);
-        mv.add("url", "/showSettingReservation");
         mv.setUrl("settingReservation.jsp");
         try {
             //Update
