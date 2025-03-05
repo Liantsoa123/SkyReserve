@@ -21,3 +21,20 @@ CREATE TRIGGER flight_price_info_trigger
     AFTER INSERT ON flight
     FOR EACH ROW
     EXECUTE FUNCTION insert_flight_price_info();
+
+
+-- Insert setting reservation flight for the new flight.
+CREATE OR REPLACE FUNCTION insert_flight_setting_reservation()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO setting_reservation_flight (flight_id, reservation, cancelation)
+    VALUES (NEW.flight_id, 0, 0);
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER flight_setting_reservation_trigger
+    AFTER INSERT ON flight
+    FOR EACH ROW
+    EXECUTE FUNCTION insert_flight_setting_reservation();
