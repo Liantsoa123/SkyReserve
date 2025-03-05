@@ -29,7 +29,7 @@ public class SettingReservationController {
         Modelview mv = new Modelview();
         try {
             SettingReservationFlight settingReservationFlight = SettingReservationFlightDAO.findByFlightId(flightId);
-            mv.add("settingReservatinFlight", settingReservationFlight);
+            mv.add("settingReservationFlight", settingReservationFlight);
             mv.setUrl("settingReservation.jsp");
             mv.add("flightId", flightId);
         } catch (Exception e) {
@@ -61,4 +61,29 @@ public class SettingReservationController {
         }
         return mv;
     }
+
+    @Post
+    @Url("/insertSettingReservationFlight")
+    public Modelview insertSettingReservationFlight(@RequestParamObject("SettingReservationFlight") SettingReservationFlight settingReservationFlight) {
+        Modelview mv = new Modelview();
+        mv.add("settingReservationFlight", settingReservationFlight);
+        mv.setUrl("settingReservation.jsp");
+        try {
+            //Update
+            if (settingReservationFlight.getSetting_reservation_flight_id() > 0) {
+                SettingReservationFlightDAO.update(settingReservationFlight);
+                mv.add("message", "Setting reservation flight updated successfully");
+            }
+            //Insert
+            else {
+                SettingReservationFlightDAO.insert(settingReservationFlight);
+                mv.add("message", "Setting reservation flight inserted successfully");
+            }
+
+        } catch (Exception e) {
+            mv.add("errorMessage", "An error occurred while inserting the setting reservation flight");
+        }
+        return mv;
+    }
+
 }
