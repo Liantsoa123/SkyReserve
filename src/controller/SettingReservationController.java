@@ -1,9 +1,11 @@
 package controller;
 
 import dao.SettingReservationDAO;
+import dao.SettingReservationFlightDAO;
 import mg.noobframework.annotation.*;
 import mg.noobframework.modelview.Modelview;
 import model.SettingReservation;
+import model.SettingReservationFlight;
 
 @Controller
 @AuthClass("ADMIN")
@@ -11,7 +13,7 @@ public class SettingReservationController {
 
     @Get
     @Url("/showSettingReservation")
-    public Modelview showSettingReservation()throws  Exception {
+    public Modelview showSettingReservation() throws Exception {
         Modelview mv = new Modelview();
         SettingReservation settingReservation = SettingReservationDAO.findById(1);
         if (settingReservation != null) {
@@ -19,6 +21,21 @@ public class SettingReservationController {
         }
         mv.setUrl("settingReservation.jsp");
         return mv;
+    }
+
+    @Get
+    @Url("/showSettingReservationFlight")
+    public Modelview showSettingReservationFlight(@RequestParam("flightId") int flightId) {
+        Modelview mv = new Modelview();
+        try {
+            SettingReservationFlight settingReservationFlight = SettingReservationFlightDAO.findByFlightId(flightId);
+            mv.add("settingReservatinFlight", settingReservationFlight);
+            mv.setUrl("settingReservation.jsp");
+            mv.add("flightId", flightId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mv ;
     }
 
     @Post
