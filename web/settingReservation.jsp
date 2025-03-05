@@ -40,23 +40,25 @@
     <form action="<%=settingReservationFlight!=null? "./insertSettingReservationFlight" :"./insertSettingReservation" %>" method="post">
         <input type="hidden" name="url" value="<%=settingReservationFlight!=null?"/showSettingReservationFlight?flightId="+settingReservationFlight.getFlight_id():"/showSettingReservation"%>">
 
-        <input type="hidden" name="<%=settingReservationFlight!=null?"SettingReservationFlight.setting_reservation_id":"SettingReservation.setting_reservation_id"%>"
+        <input type="hidden" name="<%=settingReservationFlight!=null?"SettingReservationFlight.setting_reservation_flight_id":"SettingReservation.setting_reservation_id"%>"
             <%
                      if (settingReservation != null) { %>
                value="<%=settingReservation.getSetting_reservation_id()%>"
             <%
-                    } else { %>
-               value="<%=request.getParameter("SettingReservation.setting_reservation_id")!=null?request.getParameter("SettingReservation.setting_reservation_id"):"-1"%>"
-            <% } %> >
+                    } else if ( request.getParameter("SettingReservation.setting_reservation_id")!=null ){ %>
+               value="<%=request.getParameter("SettingReservation.setting_reservation_id")%>"
+            <%
+                     } else if ( settingReservationFlight != null ){  %>
+                value="<%=settingReservationFlight.getSetting_reservation_flight_id()%>"
+            <%
+                     } else if( request.getParameter("SettingReservationFlight.setting_reservation_flight_id")!=null){ %>
+                value="<%=request.getParameter("SettingReservationFlight.setting_reservation_flight_id")%>"
+            <%
+                     } else { %>
+                value="-1"
+            <% } %>
+        >
 
-        <input type="hidden" name="<%=settingReservationFlight!=null?"SettingReservationFlight.setting_reservation_flight_id":"SettingReservation.setting_reservation_id"%>"
-            <%
-                     if (settingReservationFlight != null) { %>
-               value="<%=settingReservationFlight.getFlight_id()%>"
-            <%
-                    } else { %>
-               value="<%=request.getParameter("SettingReservationFlight.setting_reservation_flight_id")!=null?request.getParameter("SettingReservationFlight.setting_reservation_id"):"-1"%>"
-            <% } %> >
 
         <input type="hidden" name="SettingReservationFlight.flight_id"
             <%
