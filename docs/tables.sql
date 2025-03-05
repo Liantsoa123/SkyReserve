@@ -46,9 +46,9 @@ CREATE TABLE flight
 
 CREATE TABLE reservation_status
 (
-    resrvation_status_id SERIAL,
+    reservation_status_id SERIAL,
     reseravtion_name     VARCHAR(250) NOT NULL,
-    PRIMARY KEY (resrvation_status_id)
+    PRIMARY KEY (reservation_status_id)
 );
 
 CREATE TABLE number_promotion
@@ -66,6 +66,16 @@ CREATE TABLE setting_reservation
     reservation            NUMERIC(5, 1) NOT NULL,
     cancelation            NUMERIC(5, 1) NOT NULL,
     PRIMARY KEY (setting_reservation_id)
+);
+
+CREATE TABLE setting_reservation_flight
+(
+    setting_reservation_flight_id SERIAL,
+    reservation                   NUMERIC(5, 1) NOT NULL Default 0,
+    cancelation                   NUMERIC(5, 1) NOT NULL,
+    flight_id                     INTEGER       NOT NULL,
+    PRIMARY KEY (setting_reservation_flight_id),
+    FOREIGN KEY (flight_id) REFERENCES flight (flight_id)
 );
 
 CREATE TABLE reservation
