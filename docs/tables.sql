@@ -89,7 +89,7 @@ CREATE TABLE reservation
     flight_id            INTEGER   NOT NULL,
     user_id              INTEGER   NOT NULL,
     PRIMARY KEY (reservation_id),
-    FOREIGN KEY (reservation_status_id) REFERENCES reservation_status (resrvation_status_id),
+    FOREIGN KEY (reservation_status_id) REFERENCES reservation_status (reservation_status_id),
     FOREIGN KEY (seat_type_id) REFERENCES seat_type (seat_type_id),
     FOREIGN KEY (flight_id) REFERENCES flight (flight_id),
     FOREIGN KEY (user_id) REFERENCES _user_ (user_id)
