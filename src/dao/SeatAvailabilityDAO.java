@@ -81,7 +81,7 @@ public class SeatAvailabilityDAO {
                            SUM(seats_number) as reserved_count
                        FROM reservation
                        WHERE flight_id = ?
-                         AND reservation_status_id != (SELECT resrvation_status_id FROM reservation_status WHERE reseravtion_name = 'Annulé')
+                         AND reservation_status_id != (SELECT reservation_status_id FROM reservation_status WHERE reseravtion_name = 'Annulé')
                        GROUP BY seat_type_id
                    )
                    SELECT
