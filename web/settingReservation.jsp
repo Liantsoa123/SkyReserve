@@ -1,5 +1,6 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="model.SettingReservation" %>
+<%@ page import="model.SettingReservationFlight" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     HashMap<String, String> error = new HashMap<String, String>();
@@ -10,10 +11,13 @@
     if (request.getAttribute("settingReservation") != null) {
         settingReservation = (SettingReservation) request.getAttribute("settingReservation");
     }
+
+    SettingReservationFlight settingReservationFlight = request.getAttribute("settingReservatinFlight") != null ? (SettingReservationFlight) request.getAttribute("settingReservatinFlight") : null;
+
 %>
 
 <!DOCTYPE html>
-<html data-theme="light" >
+<html data-theme="light">
 <head>
     <meta charset="UTF-8">
     <title>SkyReserve - Paramètres de Réservation</title>
@@ -29,20 +33,38 @@
 <jsp:include page="components/navbar.jsp"/>
 
 <div class="container">
-    <h2>Paramètres de Réservation</h2>
+    <h2>Paramètres de Réservation  <%=request.getAttribute("flightId")!=null? "pour le vol id ="+request.getAttribute("flightId"):""%></h2>
 
     <jsp:include page="components/messages.jsp"/>
 
-    <form action="./insertSettingReservation" method="post">
-        <input type="hidden" name="url" value="/showSettingReservation" >
+    <form action="<%=settingReservationFlight!=null? "./showSettingReservationFlight" :"./insertSettingReservation" %>" method="post">
+        <input type="hidden" name="url" value="/showSettingReservation">
 
         <input type="hidden" name="SettingReservation.setting_reservation_id"
             <%
-                        if (settingReservation != null) { %>
+                     if (settingReservation != null) { %>
                value="<%=settingReservation.getSetting_reservation_id()%>"
             <%
                     } else { %>
                value="<%=request.getParameter("SettingReservation.setting_reservation_id")!=null?request.getParameter("SettingReservation.setting_reservation_id"):"-1"%>"
+            <% } %> >
+
+        <input type="hidden" name="SettingReservationFlight.setting_reservation_id"
+            <%
+                     if (settingReservationFlight != null) { %>
+               value="<%=settingReservationFlight.getFlight_id()%>"
+            <%
+                    } else { %>
+               value="<%=request.getParameter("SettingReservationFlight.setting_reservation_id")!=null?request.getParameter("SettingReservationFlight.setting_reservation_id"):"-1"%>"
+            <% } %> >
+
+        <input type="hidden" name="SettingReservationFlight.flight_id"
+            <%
+                if (settingReservationFlight != null) { %>
+               value="<%=settingReservationFlight.getFlight_id()%>"
+            <%
+                } else { %>
+               value="<%=request.getParameter("SettingReservationFlight.flight_id")!=null?request.getParameter("SettingReservationFlight.flight_id"):"-1"%>"
             <% } %> >
 
         <% if (error.get("reservation") != null) {%>
@@ -59,9 +81,15 @@
                         if (request.getParameter("SettingReservation.reservation")!= null) { %>
                    value="<%=request.getParameter("SettingReservation.reservation")%>"
                 <%
-                    } else { %>
-                   value="<%=settingReservation!=null?settingReservation.getReservation():""%>"
-                <% } %> >
+                        } else if ( settingReservation!=null ){ %>
+                   value="<%=settingReservation.getReservation()%>"
+                <%
+                        } else if (request.getParameter("SettingReservationFlight.reservation")!=null){  %>
+                   value="<%=request.getParameter("SettingReservationFlight.reservation")%>"
+                <%
+                        } else if (settingReservationFlight !=null){ %>
+                   value="<%=settingReservationFlight.getReservation()%>"
+                <% } %>>
         </div>
 
         <% if (error.get("cancelation") != null) {%>
@@ -78,9 +106,17 @@
                         if (request.getParameter("SettingReservation.cancelation") != null) { %>
                    value="<%=request.getParameter("SettingReservation.cancelation")%>"
                 <%
-                    } else { %>
-                   value="<%=settingReservation!=null?settingReservation.getCancelation():""%>"
-                <% } %> >
+                        } else if ( settingReservation!=null ){ %>
+                   value="<%=settingReservation.getCancelation()%>"
+                <%
+                        } else if ( request.getParameter("SettingReservationFlight.cancelation") != null ){%>
+                   value="<%=request.getParameter("SettingReservationFlight.cancelation")%>"
+                <%
+                        }else if (settingReservationFlight != null) { %>
+                   value="<%=settingReservationFlight.getCancelation()%>"
+                <%
+                        }
+                %>>
         </div>
 
         <div class="form-actions">
