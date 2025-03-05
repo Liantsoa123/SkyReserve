@@ -55,3 +55,7 @@ VALUES ('En attente'),
        ('En cours'),
        ('Terminé'),
        ('Annulé');
+
+INSERT INTO _user_ (name,role,password) values
+('liantsoa', 'admin', '12345'),
+('fanantenana', 'client', '12345');
