@@ -1,5 +1,6 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="model.SettingReservation" %>
+<%@ page import="model.SettingReservationFlight" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     HashMap<String, String> error = new HashMap<String, String>();
@@ -10,10 +11,13 @@
     if (request.getAttribute("settingReservation") != null) {
         settingReservation = (SettingReservation) request.getAttribute("settingReservation");
     }
+
+    SettingReservationFlight settingReservationFlight = request.getAttribute("settingReservationFlight") != null ? (SettingReservationFlight) request.getAttribute("settingReservationFlight") : null;
+
 %>
 
 <!DOCTYPE html>
-<html data-theme="light" >
+<html data-theme="light">
 <head>
     <meta charset="UTF-8">
     <title>SkyReserve - Paramètres de Réservation</title>
@@ -29,19 +33,40 @@
 <jsp:include page="components/navbar.jsp"/>
 
 <div class="container">
-    <h2>Paramètres de Réservation</h2>
+    <h2>Paramètres de Réservation  <%=request.getAttribute("flightId")!=null? "pour le vol id ="+request.getAttribute("flightId"):""%></h2>
 
     <jsp:include page="components/messages.jsp"/>
 
-    <form action="./insertSettingReservation" method="post">
+    <form action="<%=settingReservationFlight!=null? "./insertSettingReservationFlight" :"./insertSettingReservation" %>" method="post">
+        <input type="hidden" name="url" value="<%=settingReservationFlight!=null?"/showSettingReservationFlight?flightId="+settingReservationFlight.getFlight_id():"/showSettingReservation"%>">
 
-        <input type="hidden" name="SettingReservation.setting_reservation_id"
+        <input type="hidden" name="<%=settingReservationFlight!=null?"SettingReservationFlight.setting_reservation_flight_id":"SettingReservation.setting_reservation_id"%>"
             <%
-                        if (settingReservation != null) { %>
+                     if (settingReservation != null) { %>
                value="<%=settingReservation.getSetting_reservation_id()%>"
             <%
-                    } else { %>
-               value="<%=request.getParameter("SettingReservation.setting_reservation_id")!=null?request.getParameter("SettingReservation.setting_reservation_id"):"-1"%>"
+                    } else if ( request.getParameter("SettingReservation.setting_reservation_id")!=null ){ %>
+               value="<%=request.getParameter("SettingReservation.setting_reservation_id")%>"
+            <%
+                     } else if ( settingReservationFlight != null ){  %>
+                value="<%=settingReservationFlight.getSetting_reservation_flight_id()%>"
+            <%
+                     } else if( request.getParameter("SettingReservationFlight.setting_reservation_flight_id")!=null){ %>
+                value="<%=request.getParameter("SettingReservationFlight.setting_reservation_flight_id")%>"
+            <%
+                     } else { %>
+                value="-1"
+            <% } %>
+        >
+
+
+        <input type="hidden" name="SettingReservationFlight.flight_id"
+            <%
+                if (settingReservationFlight != null) { %>
+               value="<%=settingReservationFlight.getFlight_id()%>"
+            <%
+                } else { %>
+               value="<%=request.getParameter("SettingReservationFlight.flight_id")!=null?request.getParameter("SettingReservationFlight.flight_id"):"-1"%>"
             <% } %> >
 
         <% if (error.get("reservation") != null) {%>
@@ -50,17 +75,23 @@
         <% } %>
         <div class="form-group">
             <label for="reservation">Nombre d'heures avant le vol pour la réservation:</label>
-            <input type="number"
+            <input type="text"
                    id="reservation"
                    step="0.1"
-                   name="SettingReservation.reservation"
+                   name="<%=settingReservationFlight!=null?"SettingReservationFlight.reservation":"SettingReservation.reservation"%>"
                 <%
-                        if (settingReservation != null) { %>
+                        if (request.getParameter("SettingReservation.reservation")!= null) { %>
+                   value="<%=request.getParameter("SettingReservation.reservation")%>"
+                <%
+                        } else if ( settingReservation!=null ){ %>
                    value="<%=settingReservation.getReservation()%>"
                 <%
-                    } else { %>
-                   value="<%=request.getParameter("SettingReservation.reservation")!=null?request.getParameter("SettingReservation.reservation"):""%>"
-                <% } %> >
+                        } else if (request.getParameter("SettingReservationFlight.reservation")!=null){  %>
+                   value="<%=request.getParameter("SettingReservationFlight.reservation")%>"
+                <%
+                        } else if (settingReservationFlight !=null){ %>
+                   value="<%=settingReservationFlight.getReservation()%>"
+                <% } %>>
         </div>
 
         <% if (error.get("cancelation") != null) {%>
@@ -69,17 +100,25 @@
         <% } %>
         <div class="form-group">
             <label for="cancelation">Critère d'annulation (Nombre d'heures avant le vol):</label>
-            <input type="number"
+            <input type="text"
                    id="cancelation"
-                   name="SettingReservation.cancelation"
+                   name="<%=settingReservationFlight!=null?"SettingReservationFlight.cancelation":"SettingReservation.cancelation"%>"
                    step="0.1"
                 <%
-                        if (settingReservation != null) { %>
+                        if (request.getParameter("SettingReservation.cancelation") != null) { %>
+                   value="<%=request.getParameter("SettingReservation.cancelation")%>"
+                <%
+                        } else if ( settingReservation!=null ){ %>
                    value="<%=settingReservation.getCancelation()%>"
                 <%
-                    } else { %>
-                   value="<%=request.getParameter("SettingReservation.cancelation")!=null?request.getParameter("SettingReservation.cancelation"):""%>"
-                <% } %> >
+                        } else if ( request.getParameter("SettingReservationFlight.cancelation") != null ){%>
+                   value="<%=request.getParameter("SettingReservationFlight.cancelation")%>"
+                <%
+                        }else if (settingReservationFlight != null) { %>
+                   value="<%=settingReservationFlight.getCancelation()%>"
+                <%
+                        }
+                %>>
         </div>
 
         <div class="form-actions">

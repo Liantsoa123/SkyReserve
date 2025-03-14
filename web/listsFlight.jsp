@@ -138,6 +138,10 @@
                     <button onclick="showPriceInfo(<%= flight.getFlight_id() %>)" class="btn-edit" title="Prix">
                         <i class="fas fa-tag"></i>
                     </button>
+                    <button onclick="showSettingReservationFlight(<%= flight.getFlight_id() %>)" class="btn-edit" title="Paramètres de réservation">
+                        <i class="fas fa-cogs"></i>
+                    </button>
+
                     <% } else { %>
                     <button onclick="reserveFlight(<%= flight.getFlight_id() %>)" class="btn-reserve" title="Réserver">
                         <i class="fas fa-plane-departure"></i>
@@ -175,6 +179,11 @@
     function showPriceInfo(flightId) {
         window.location.href = './showFlightSetting?flightId=' + flightId;
     }
+
+    function showSettingReservationFlight(flightId) {
+        window.location.href = './showSettingReservationFlight?flightId=' + flightId;
+    }
+
 </script>
 
 </body>
