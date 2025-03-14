@@ -59,6 +59,9 @@ public class ReservationController {
 
             mv.add("reservation", reservation);
 
+            reservation.setReservation_date(TimestampUtils.getCurrentTimestamp());
+            reservation.setReservation_status_id(1);
+
             SeatAvailabilityDTO seatAvailabilityDTO = SeatAvailabilityDAO.getAvailableSeatsBySeatId(reservation.getFlight_id(), reservation.getSeat_type_id());
             // Check if there are enough seats available
             if (seatAvailabilityDTO.getAvailableSeats() < reservation.getSeats_number()) {
@@ -79,9 +82,23 @@ public class ReservationController {
                 }
             }
 
+            //check Setting Reservation Flight
+            SettingReservationFlight settingReservationFlight = SettingReservationFlightDAO.findByFlightId(reservation.getFlight_id());
+            long hoursEcart = TimestampUtils.getHoursBetweenTimestamps(reservation.getReservation_date(), flight.getDeparture_date());
+            SettingReservation settingReservation = SettingReservationDAO.findById(1);
+            if (settingReservationFlight != null) {
+                if ( hoursEcart <= settingReservationFlight.getReservation()){
+                    mv.add("errorMessage", "You can't reserve a flight less than " + settingReservationFlight.getReservation() + " hours before departure");
+                    return mv;
+                }
+            }else if ( settingReservation != null){
+                if (  hoursEcart <= settingReservation.getReservation()){
+                    mv.add("errorMessage", "You can't reserve a flight less than " + settingReservation.getReservation() + " hours before departure");
+                    return mv;
+                }
+            }
+
             //insertion of the reservation
-            reservation.setReservation_date(TimestampUtils.getCurrentTimestamp());
-            reservation.setReservation_status_id(1);
             ReservationDAO.insert(reservation);
             mv.add("message", "Reservation inserted successfully avec promotion=" + reservation.isHas_promotion());
             //UDPATE SEAT AVAILABILITY
