@@ -86,15 +86,16 @@ public class ReservationController {
             SettingReservationFlight settingReservationFlight = SettingReservationFlightDAO.findByFlightId(reservation.getFlight_id());
             long hoursEcart = TimestampUtils.getHoursBetweenTimestamps(reservation.getReservation_date(), flight.getDeparture_date());
             SettingReservation settingReservation = SettingReservationDAO.findById(1);
-            if (settingReservationFlight != null) {
-                if ( hoursEcart <= settingReservationFlight.getReservation()){
+            if (settingReservationFlight != null && settingReservation != null) {
+
+                if (hoursEcart <= settingReservationFlight.getReservation() && settingReservationFlight.getReservation() != 0) {
                     mv.add("errorMessage", "You can't reserve a flight less than " + settingReservationFlight.getReservation() + " hours before departure");
                     return mv;
-                }
-            }else if ( settingReservation != null){
-                if (  hoursEcart <= settingReservation.getReservation()){
-                    mv.add("errorMessage", "You can't reserve a flight less than " + settingReservation.getReservation() + " hours before departure");
-                    return mv;
+                } else if (hoursEcart <= settingReservation.getReservation() && settingReservation.getReservation() != 0) {
+                    {
+                        mv.add("errorMessage", "You can't reserve a flight less than " + settingReservation.getReservation() + " hours before departure");
+                        return mv;
+                    }
                 }
             }
 
