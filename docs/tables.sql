@@ -47,7 +47,7 @@ CREATE TABLE flight
 CREATE TABLE reservation_status
 (
     reservation_status_id SERIAL,
-    reseravtion_name     VARCHAR(250) NOT NULL,
+    reservation_name      VARCHAR(250) NOT NULL,
     PRIMARY KEY (reservation_status_id)
 );
 
@@ -78,16 +78,24 @@ CREATE TABLE setting_reservation_flight
     FOREIGN KEY (flight_id) REFERENCES flight (flight_id)
 );
 
+CREATE TABLE age_setting
+(
+    age_setting_id      SERIAL,
+    age                 INTEGER       NOT NULL,
+    discount_percentage NUMERIC(5, 2) NOT NULL,
+    PRIMARY KEY (age_setting_id)
+);
+
 CREATE TABLE reservation
 (
-    reservation_id       SERIAL,
-    reservation_date     TIMESTAMP NOT NULL,
-    seats_number         INTEGER   NOT NULL default 1,
-    has_promotion        BOOLEAN   NOT NULL default false,
+    reservation_id        SERIAL,
+    reservation_date      TIMESTAMP NOT NULL,
+    seats_number          INTEGER   NOT NULL default 1,
+    has_promotion         BOOLEAN   NOT NULL default false,
     reservation_status_id INTEGER   NOT NULL,
-    seat_type_id         INTEGER   NOT NULL,
-    flight_id            INTEGER   NOT NULL,
-    user_id              INTEGER   NOT NULL,
+    seat_type_id          INTEGER   NOT NULL,
+    flight_id             INTEGER   NOT NULL,
+    user_id               INTEGER   NOT NULL,
     PRIMARY KEY (reservation_id),
     FOREIGN KEY (reservation_status_id) REFERENCES reservation_status (reservation_status_id),
     FOREIGN KEY (seat_type_id) REFERENCES seat_type (seat_type_id),
@@ -109,7 +117,7 @@ CREATE TABLE price_info
 (
     seat_type_id        INTEGER,
     flight_id           INTEGER,
-    unit_price          NUMERIC(15, 2) NOT NULL ,
+    unit_price          NUMERIC(15, 2) NOT NULL,
     discount_percentage NUMERIC(15, 2) NOT NULL default 0,
     number              INTEGER        NOT NULL default 0,
     PRIMARY KEY (seat_type_id, flight_id),

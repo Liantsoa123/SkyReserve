@@ -117,4 +117,32 @@ public class ReservationDAO {
             pstmt.executeUpdate();
         }
     }
+
+    // Find by User Id
+    public static List<Reservation> findByUserId(int userId) throws SQLException {
+        ConnectionBdd connectionBdd = new ConnectionBdd();
+        List<Reservation> reservations = new ArrayList<>();
+        String query = "SELECT * FROM reservation WHERE user_id = ? ORDER BY reservation_date DESC";
+
+        try (Connection conn = connectionBdd.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Reservation reservation = new Reservation(
+                            rs.getInt("reservation_id"),
+                            rs.getTimestamp("reservation_date"),
+                            rs.getInt("seats_number"),
+                            rs.getBoolean("has_promotion"),
+                            rs.getInt("reservation_status_id"),
+                            rs.getInt("seat_type_id"),
+                            rs.getInt("flight_id"),
+                            rs.getInt("user_id"));
+                    reservations.add(reservation);
+                }
+            }
+        }
+        return reservations;
+    }
 }
