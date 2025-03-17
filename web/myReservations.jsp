@@ -21,63 +21,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dark-mode.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/messages.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/myReservation.css">
     <script src="${pageContext.request.contextPath}/assets/js/theme.js" defer></script>
 
-    <style>
-        .reservations-container {
-            margin: 20px;
-            padding: 20px;
-        }
-
-        .reservation-card {
-            background: var(--surface-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .reservation-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .reservation-status {
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-
-        .status-pending { background-color: #ffd700; }
-        .status-confirmed { background-color: #90EE90; }
-        .status-cancelled { background-color: #ffcccb; }
-
-        .flight-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .info-group {
-            margin-bottom: 10px;
-        }
-
-        .info-label {
-            font-weight: bold;
-            color: var(--text-muted);
-        }
-
-        .btn-cancel {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
 
