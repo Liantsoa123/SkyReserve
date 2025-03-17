@@ -1,6 +1,7 @@
 package controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.*;
@@ -110,4 +111,46 @@ public class ReservationController {
         }
         return mv;
     }
+
+    @Get
+    @Url("/showMyReservations")
+    @AuthMethod("CLIENT")
+    public Modelview showMyReservations( ) {
+        Modelview mv = new Modelview();
+        mv.setUrl("myReservations.jsp");
+        User currentUser = (User) mysession.get("user");
+        try {
+
+            List<Reservation> reservations = ReservationDAO.findByUserId(currentUser.getUser_id());
+
+            // Récupérer les détails pour chaque réservation
+            List<Flight> flights = new ArrayList<>();
+            List<City> departureCities = new ArrayList<>();
+            List<City> arrivalCities = new ArrayList<>();
+            List<SeatType> seatTypes = new ArrayList<>();
+            List<ReservationStatus> statuses = new ArrayList<>();
+
+            for (Reservation reservation : reservations) {
+                Flight flight = FlightDAO.findById(reservation.getFlight_id());
+                flights.add(flight);
+                departureCities.add(CityDAO.findById(flight.getDeparture_city_id()));
+                arrivalCities.add(CityDAO.findById(flight.getArrival_city_id()));
+                seatTypes.add(SeatTypeDAO.findById(reservation.getSeat_type_id()));
+                statuses.add(ReservationStatusDAO.findById(reservation.getReservation_status_id()));
+            }
+
+            mv.add("reservations", reservations);
+            mv.add("flights", flights);
+            mv.add("departureCities", departureCities);
+            mv.add("arrivalCities", arrivalCities);
+            mv.add("seatTypes", seatTypes);
+            mv.add("statuses", statuses);
+
+
+        } catch (Exception e) {
+            mv.add("errorMessage", "Une erreur est survenue lors de la récupération des réservations " + currentUser.getName());
+        }
+        return mv;
+    }
+
 }
