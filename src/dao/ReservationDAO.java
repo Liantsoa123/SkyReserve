@@ -11,20 +11,22 @@ public class ReservationDAO {
     // Create
     public static void insert(Reservation reservation) throws SQLException {
         ConnectionBdd connectionBdd = new ConnectionBdd();
-        String query = "INSERT INTO reservation (reservation_date, seats_number, has_promotion, " +
+        String query = "INSERT INTO reservation (reservation_date, seats_number, seats_number_children, has_promotion, "
+                +
                 "reservation_status_id, seat_type_id, flight_id, user_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connectionBdd.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setTimestamp(1, reservation.getReservation_date());
             pstmt.setInt(2, reservation.getSeats_number());
-            pstmt.setBoolean(3, reservation.isHas_promotion());
-            pstmt.setInt(4, reservation.getReservation_status_id());
-            pstmt.setInt(5, reservation.getSeat_type_id());
-            pstmt.setInt(6, reservation.getFlight_id());
-            pstmt.setInt(7, reservation.getUser_id());
+            pstmt.setInt(3, reservation.getSeats_number_children());
+            pstmt.setBoolean(4, reservation.isHas_promotion());
+            pstmt.setInt(5, reservation.getReservation_status_id());
+            pstmt.setInt(6, reservation.getSeat_type_id());
+            pstmt.setInt(7, reservation.getFlight_id());
+            pstmt.setInt(8, reservation.getUser_id());
             pstmt.executeUpdate();
         }
     }
@@ -46,6 +48,7 @@ public class ReservationDAO {
                             rs.getInt("reservation_id"),
                             rs.getTimestamp("reservation_date"),
                             rs.getInt("seats_number"),
+                            rs.getInt("seats_number_children"),
                             rs.getBoolean("has_promotion"),
                             rs.getInt("reservation_status_id"),
                             rs.getInt("seat_type_id"),
@@ -72,6 +75,7 @@ public class ReservationDAO {
                         rs.getInt("reservation_id"),
                         rs.getTimestamp("reservation_date"),
                         rs.getInt("seats_number"),
+                        rs.getInt("seats_number_children"),
                         rs.getBoolean("has_promotion"),
                         rs.getInt("reservation_status_id"),
                         rs.getInt("seat_type_id"),
@@ -86,7 +90,7 @@ public class ReservationDAO {
     // Update
     public static void update(Reservation reservation) throws SQLException {
         ConnectionBdd connectionBdd = new ConnectionBdd();
-        String query = "UPDATE reservation SET reservation_date = ?, seats_number = ?, " +
+        String query = "UPDATE reservation SET reservation_date = ?, seats_number = ?, seats_number_children = ?, " +
                 "has_promotion = ?, reservation_status_id = ?, seat_type_id = ?, " +
                 "flight_id = ?, user_id = ? WHERE reservation_id = ?";
 
@@ -95,12 +99,13 @@ public class ReservationDAO {
 
             pstmt.setTimestamp(1, reservation.getReservation_date());
             pstmt.setInt(2, reservation.getSeats_number());
-            pstmt.setBoolean(3, reservation.isHas_promotion());
-            pstmt.setInt(4, reservation.getReservation_status_id());
-            pstmt.setInt(5, reservation.getSeat_type_id());
-            pstmt.setInt(6, reservation.getFlight_id());
-            pstmt.setInt(7, reservation.getUser_id());
-            pstmt.setInt(8, reservation.getReservation_id());
+            pstmt.setInt(3, reservation.getSeats_number_children());
+            pstmt.setBoolean(4, reservation.isHas_promotion());
+            pstmt.setInt(5, reservation.getReservation_status_id());
+            pstmt.setInt(6, reservation.getSeat_type_id());
+            pstmt.setInt(7, reservation.getFlight_id());
+            pstmt.setInt(8, reservation.getUser_id());
+            pstmt.setInt(9, reservation.getReservation_id());
             pstmt.executeUpdate();
         }
     }
@@ -125,7 +130,7 @@ public class ReservationDAO {
         String query = "SELECT * FROM reservation WHERE user_id = ? ORDER BY reservation_date DESC";
 
         try (Connection conn = connectionBdd.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+                PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -134,6 +139,7 @@ public class ReservationDAO {
                             rs.getInt("reservation_id"),
                             rs.getTimestamp("reservation_date"),
                             rs.getInt("seats_number"),
+                            rs.getInt("seats_number_children"),
                             rs.getBoolean("has_promotion"),
                             rs.getInt("reservation_status_id"),
                             rs.getInt("seat_type_id"),

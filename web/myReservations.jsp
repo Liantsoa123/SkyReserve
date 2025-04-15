@@ -79,8 +79,13 @@
                 </div>
 
                 <div class="info-group">
-                    <div class="info-label">Nombre de places:</div>
+                    <div class="info-label">Nombre de places adultes:</div>
                     <div><%= reservation.getSeats_number() %></div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">Nombre de places enfants:</div>
+                    <div><%= reservation.getSeats_number_children() %></div>
                 </div>
 
                 <div class="info-group">

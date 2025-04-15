@@ -119,7 +119,7 @@
         </div>
         <% } %>
         <div class="form-group">
-            <label for="seatsNumber">Nombre de places:</label>
+            <label for="seatsNumber">Nombre de places adultes:</label>
             <input type="number"
                    id="seatsNumber"
                    name="Reservation.seats_number"
@@ -131,6 +131,21 @@
                     }
                     %>
                    min="1">
+        </div>
+
+        <div class="form-group">
+            <label for="seatsNumberChildren">Nombre de places enfants:</label>
+            <input type="number"
+                   id="seatsNumberChildren"
+                   name="Reservation.seats_number_children"
+                <%
+                    if (reservation != null) {
+                    %>
+                   value="<%= reservation.getSeats_number_children() %>"
+                <%
+                    }
+                    %>
+                   min="0">
         </div>
 
         <div class="form-actions">
