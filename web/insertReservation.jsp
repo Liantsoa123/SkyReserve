@@ -95,17 +95,17 @@
             <select name="Reservation.seat_type_id" id="seatType">
                 <option value="-1">Sélectionner un type de siège</option>
                 <% for (SeatType seatType : seatTypes) {
-                     String  selected = "";
-                     if (reservation != null) {
-                         selected = (reservation.getSeat_type_id() == seatType.getSeat_type_id())
-                                 ? "selected"
-                                 : "";
-                     } else {
-                         selected = (request.getParameter("Reservation.seat_type_id") != null
-                                 && Integer.parseInt(request.getParameter("Reservation.seat_type_id")) == seatType.getSeat_type_id())
-                                 ? "selected"
-                                 : "";
-                     }
+                    String selected = "";
+                    if (reservation != null) {
+                        selected = (reservation.getSeat_type_id() == seatType.getSeat_type_id())
+                                ? "selected"
+                                : "";
+                    } else {
+                        selected = (request.getParameter("Reservation.seat_type_id") != null
+                                && Integer.parseInt(request.getParameter("Reservation.seat_type_id")) == seatType.getSeat_type_id())
+                                ? "selected"
+                                : "";
+                    }
                 %>
                 <option value="<%= seatType.getSeat_type_id() %>" <%= selected %>>
                     <%= seatType.getType_name() %>
@@ -119,7 +119,7 @@
         </div>
         <% } %>
         <div class="form-group">
-            <label for="seatsNumber">Nombre de places:</label>
+            <label for="seatsNumber">Nombre de places adultes:</label>
             <input type="number"
                    id="seatsNumber"
                    name="Reservation.seats_number"
@@ -128,9 +128,36 @@
                     %>
                    value="<%= reservation.getSeats_number() %>"
                 <%
+                    }else {
+                %>
+                   value="<%=request.getParameter("Reservation.seats_number")%>"
+                <%
                     }
-                    %>
+                %>
                    min="1">
+        </div>
+
+        <% if (error.get("seats_number_children") != null) {%>
+        <div class="error-message"><%=error.get("seats_number_children")%>
+        </div>
+        <% } %>
+        <div class="form-group">
+            <label for="seatsNumberChildren">Nombre de places enfants:</label>
+            <input type="number"
+                   id="seatsNumberChildren"
+                   name="Reservation.seats_number_children"
+                <%
+                    if (reservation != null) {
+                    %>
+                   value="<%= reservation.getSeats_number_children() %>"
+                <%
+                    }else {
+                %>
+                    value="<%=request.getParameter("Reservation.seats_number_children")%>"
+                <%
+                    }
+                %>
+                   min="0">
         </div>
 
         <div class="form-actions">

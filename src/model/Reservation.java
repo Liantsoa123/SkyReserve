@@ -10,6 +10,8 @@ public class Reservation {
     private Timestamp reservation_date;
     @Required
     private int seats_number;
+    @Required
+    private int seats_number_children;
     private boolean has_promotion;
     private int reservation_status_id;
     @Required
@@ -22,11 +24,13 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(int reservation_id, Timestamp reservation_date, int seats_number, boolean has_promotion,
-                       int reservation_status_id, int seat_type_id, int flight_id, int user_id) {
+    public Reservation(int reservation_id, Timestamp reservation_date, int seats_number, int seats_number_children,
+            boolean has_promotion,
+            int reservation_status_id, int seat_type_id, int flight_id, int user_id) {
         this.reservation_id = reservation_id;
         this.reservation_date = reservation_date;
         this.seats_number = seats_number;
+        this.seats_number_children = seats_number_children;
         this.has_promotion = has_promotion;
         this.reservation_status_id = reservation_status_id;
         this.seat_type_id = seat_type_id;
@@ -98,5 +102,11 @@ public class Reservation {
         this.flight_id = flight_id;
     }
 
+    public int getSeats_number_children() {
+        return seats_number_children;
+    }
 
+    public void setSeats_number_children(int seats_number_children) {
+        this.seats_number_children = seats_number_children;
+    }
 }

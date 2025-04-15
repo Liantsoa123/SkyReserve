@@ -91,6 +91,7 @@ CREATE TABLE reservation
     reservation_id        SERIAL,
     reservation_date      TIMESTAMP NOT NULL,
     seats_number          INTEGER   NOT NULL default 1,
+    seats_number_children INTEGER   NOT NULL default 1,
     has_promotion         BOOLEAN   NOT NULL default false,
     reservation_status_id INTEGER   NOT NULL,
     seat_type_id          INTEGER   NOT NULL,
