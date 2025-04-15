@@ -41,7 +41,7 @@ public class SeatAvailabilityDAO {
                            LEFT JOIN reserved_seats rs ON st.seat_type_id = rs.seat_type_id
                            LEFT JOIN price_info pi ON st.seat_type_id = pi.seat_type_id AND f.flight_id = pi.flight_id
                   WHERE f.flight_id = ?;
-                  
+
                 """;
 
         try (Connection conn = connectionBdd.getConnection();
@@ -81,7 +81,7 @@ public class SeatAvailabilityDAO {
                            SUM(seats_number) as reserved_count
                        FROM reservation
                        WHERE flight_id = ?
-                         AND reservation_status_id != (SELECT reservation_status_id FROM reservation_status WHERE reseravtion_name = 'Annulé')
+                         AND reservation_status_id != (SELECT reservation_status_id FROM reservation_status WHERE reservation_name = 'Annulé')
                        GROUP BY seat_type_id
                    )
                    SELECT
