@@ -95,10 +95,13 @@
             </div>
 
             <% if (!status.getReservation_name().equals("Annulé")) { %>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 15px; display: flex; gap: 10px;">
                 <button onclick="cancelReservation(<%= reservation.getReservation_id() %>)" class="btn-cancel">
                     <i class="fas fa-times"></i> Annuler la réservation
                 </button>
+                <a href="./downloadReservationPdf?reservationId=<%= reservation.getReservation_id() %>" class="btn-download" target="_blank">
+                    <i class="fas fa-file-pdf"></i> Télécharger PDF
+                </a>
             </div>
             <% } %>
         </div>
