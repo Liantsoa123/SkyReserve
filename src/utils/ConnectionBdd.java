@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class ConnectionBdd {
     // Database URL, username, and password
-    private final String URL = "jdbc:postgresql://localhost:5432/sky_reserve";
-    private final String USER = "postgres";
-    private final String PASSWORD = "liantsoa";
+    private final String URL = PropertiesLoader.getProperty("psql.url");
+    private final String USER = PropertiesLoader.getProperty("psql.username");
+    private final String PASSWORD = PropertiesLoader.getProperty("psql.password");
 
     public Connection getConnection() {
         Connection conn = null;
