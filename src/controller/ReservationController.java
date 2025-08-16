@@ -68,7 +68,7 @@ public class ReservationController {
                     .getAvailableSeatsBySeatId(reservation.getFlight_id(), reservation.getSeat_type_id());
             // Check if there are enough seats available
             if (seatAvailabilityDTO.getAvailableSeats() < reservation.getSeats_number()) {
-                mv.add("errorMessage", "Not enough seats available for this type");
+                mv.add("errorMessage", "Pas assez de places disponibles pour ce type");
                 return mv;
             }
 
@@ -88,21 +88,22 @@ public class ReservationController {
             // check Setting Reservation Flight
             SettingReservationFlight settingReservationFlight = SettingReservationFlightDAO
                     .findByFlightId(reservation.getFlight_id());
-            long hoursEcart = TimestampUtils.getHoursBetweenTimestamps(reservation.getReservation_date(),
+            double hoursEcart = TimestampUtils.getHoursBetweenTimestamps(reservation.getReservation_date(),
                     flight.getDeparture_date());
             SettingReservation settingReservation = SettingReservationDAO.findById(1);
-            if (settingReservationFlight != null && settingReservation != null) {
 
-                if (hoursEcart <= settingReservationFlight.getReservation()
-                        && settingReservationFlight.getReservation() != 0) {
-                    mv.add("errorMessage", "You can't reserve a flight less than "
-                            + settingReservationFlight.getReservation() + " hours before departure");
+            if (settingReservationFlight.getReservation() > 0) {
+                if (hoursEcart <= settingReservationFlight.getReservation()) {
+                    mv.add("errorMessage", "Vous ne pouvez pas réserver un vol pour moins de "
+                            + settingReservationFlight.getReservation() + " heurs avant le depart");
                     return mv;
-                } else if (hoursEcart <= settingReservation.getReservation()
-                        && settingReservation.getReservation() != 0) {
-                    {
-                        mv.add("errorMessage", "You can't reserve a flight less than "
-                                + settingReservation.getReservation() + " hours before departure");
+                }
+            } else {
+                if (settingReservation.getReservation() > 0) {
+                    if (hoursEcart <= settingReservation.getReservation()) {
+                        mv.add("errorMessage",
+                                "Vous ne pouvez pas réserver un vol pour moins de "
+                                        + settingReservation.getReservation() + " heures avant le depart");
                         return mv;
                     }
                 }
@@ -110,12 +111,12 @@ public class ReservationController {
 
             // insertion of the reservation
             ReservationDAO.insert(reservation);
-            mv.add("message", "Reservation inserted successfully avec promotion=" + reservation.isHas_promotion());
+            mv.add("message", "Réservation insérée avec succès, promotion=" + reservation.isHas_promotion());
             // UDPATE SEAT AVAILABILITY
             seatAvailability = SeatAvailabilityDAO.getAvailableSeats(reservation.getFlight_id());
             mv.add("seatAvailability", seatAvailability);
         } catch (Exception e) {
-            mv.add("errorMessage", "Error while trying to reserve flight. " + e.getMessage());
+            mv.add("errorMessage", "Erreur lors de la tentative de réservation du vol. " + e.getMessage());
         }
         return mv;
     }
@@ -188,23 +189,29 @@ public class ReservationController {
                         .findByFlightId(flight.getFlight_id());
                 SettingReservation settingReservation = SettingReservationDAO.findById(1);
 
-                long hoursUntilDeparture = TimestampUtils.getHoursBetweenTimestamps(
+                double hoursUntilDeparture = TimestampUtils.getHoursBetweenTimestamps(
                         TimestampUtils.getCurrentTimestamp(),
                         flight.getDeparture_date());
 
                 // Vérifier le délai d'annulation
-                if (settingReservationFlight != null && settingReservationFlight.getCancelation() != 0
-                        && hoursUntilDeparture <= settingReservationFlight.getCancelation()) {
-                    mv.add("errorMessage",
-                            "Vous ne pouvez plus annuler cette réservation. Le délai d'annulation est dépassé ("
-                                    + settingReservationFlight.getCancelation() + " heures avant le départ)");
-                    return mv;
-                } else if (settingReservation != null && settingReservation.getCancelation() != 0
-                        && hoursUntilDeparture <= settingReservation.getCancelation()) {
-                    mv.add("errorMessage",
-                            "Vous ne pouvez plus annuler cette réservation. Le délai d'annulation est dépassé ("
-                                    + settingReservation.getCancelation() + " heures avant le départ)");
-                    return mv;
+                if (settingReservationFlight.getCancelation() > 0) {
+                    if (hoursUntilDeparture <= settingReservationFlight.getCancelation()) {
+                        mv.add("errorMessage",
+                                String.format(
+                                        "Vous ne pouvez plus annuler cette réservation. Le délai d'annulation est dépassé (%.2f heures avant le départ)",
+                                        (double) settingReservationFlight.getCancelation()));
+                        return mv;
+                    }
+                } else {
+                    if (settingReservation.getCancelation() > 0) {
+                        if (hoursUntilDeparture <= settingReservation.getCancelation()) {
+                            mv.add("errorMessage",
+                                    String.format(
+                                            "Vous ne pouvez plus annuler cette réservation. Le délai d'annulation est dépassé (%.2f heures avant le départ)",
+                                            (double) settingReservation.getCancelation()));
+                            return mv;
+                        }
+                    }
                 }
 
                 // Mettre à jour le statut de la réservation
