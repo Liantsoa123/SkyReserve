@@ -18,7 +18,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SkyReserve - Recherche de Vols</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/searchFlight.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dark-mode.css">

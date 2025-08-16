@@ -12,7 +12,6 @@
     City departure_city = (City) request.getAttribute("departure_city");
     City arrival_city = (City) request.getAttribute("arrival_city");
     int userId = ((User) session.getAttribute("user")).getUser_id();
-    String huhu = (String) request.getAttribute("huhu");
     HashMap<String, String> error = new HashMap<String, String>();
     if (request.getAttribute("error") != null) {
         error = (HashMap<String, String>) request.getAttribute("error");
@@ -29,10 +28,10 @@
 <head>
     <meta charset="UTF-8">
     <title>SkyReserve - Réserver un vol</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/insertFlight.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dark-mode.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dark-mode.css">F
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/reservation.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/messages.css">
     <script src="${pageContext.request.contextPath}/assets/js/theme.js" defer></script>
@@ -49,7 +48,7 @@
     <jsp:include page="components/messages.jsp"/>
 
     <div class="flight-details">
-        <h3>Détails du Vol <%=huhu%>
+        <h3>Détails du Vol <%=flight.getFlight_id()%>
         </h3>
         <p><strong>Ville de depart:</strong> <%=departure_city.getCity_name()%>
         </p>
