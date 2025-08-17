@@ -62,3 +62,26 @@
     color: var(--text-color);
     opacity: 0.8;
 }
+
+[data-theme="dark"] .photo-section,
+[data-theme="dark"] .upload-form {
+    background-color: var(--card-background);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .no-photo {
+    background-color: var(--input-background);
+    border-color: var(--border-color);
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+[data-theme="dark"] .file-input {
+    background-color: var(--input-background);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .file-input:hover {
+    background-color: rgba(74, 144, 226, 0.1);
+}
