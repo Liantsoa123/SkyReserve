@@ -17,6 +17,7 @@
         <% } else {%>
         <a href="./showMyReservations" ${pageContext.request.servletPath == '/myReservations.jsp' ? 'class="active"' : ''}>Mes Réservations</a>
         <% } %>
+        <a href="./passportPhoto" ${pageContext.request.servletPath == '/passportPhoto.jsp' ? 'class="active"' : ''}>Photo Passeport</a>
         <button id="theme-toggle" class="theme-toggle">
             <i class="fas fa-moon"></i>
         </button>
