@@ -8,6 +8,7 @@ import mg.noobframework.annotation.Get;
 import mg.noobframework.annotation.Post;
 import mg.noobframework.annotation.RequestParam;
 import mg.noobframework.annotation.Url;
+import mg.noobframework.file.File;
 import mg.noobframework.modelview.Modelview;
 import mg.noobframework.session.Mysession;
 import model.User;
@@ -26,13 +27,14 @@ public class UserController {
     @Post
     @Url("/login")
     public Modelview login(@RequestParam("name") String name, @RequestParam("password") String password,
-                           Mysession mysession) throws Exception {
+            Mysession mysession) throws Exception {
         Modelview mv = new Modelview();
         User user = UserDAO.login(name, password);
         if (user != null) {
             mysession.add("actif", user);
             mysession.add("roles", user.getRole());
             mysession.add("user", user);
+            mysession.add("passportPhotoPath", null);
             mv.add("cities", CityDAO.findAll());
             mv.add("planes", PlaneDAO.findAll());
             mv.setUrl("dashboard.jsp");
@@ -52,6 +54,28 @@ public class UserController {
         mysession.delete("roles");
         Modelview mv = new Modelview();
         mv.setUrl("login.jsp");
+        return mv;
+    }
+
+    @Get
+    @Url("/passportPhoto")
+    public Modelview showPassportPhoto() {
+        Modelview mv = new Modelview();
+        mv.setUrl("passportPhoto.jsp");
+        return mv;
+    }
+
+    @Post
+    @Url("/uploadPassportPhoto")
+    public Modelview uploadPassportPhoto(@RequestParam("passportPhoto") File passportPhoto, Mysession mysession)
+            throws Exception {
+        Modelview mv = new Modelview();
+        mysession.add("passportPhotoPath",
+                "assets\\images\\"
+                        + passportPhoto.getFileName());
+        passportPhoto.writeBytesToFile(
+                "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\SkyReserve\\assets\\images\\");
+        mv.setUrl("passportPhoto.jsp");
         return mv;
     }
 }
