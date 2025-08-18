@@ -13,8 +13,8 @@ public class ReservationDAO {
         ConnectionBdd connectionBdd = new ConnectionBdd();
         String query = "INSERT INTO reservation (reservation_date, seats_number, seats_number_children, has_promotion, "
                 +
-                "reservation_status_id, seat_type_id, flight_id, user_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "reservation_status_id, seat_type_id, flight_id, user_id, payment_date) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connectionBdd.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -27,6 +27,7 @@ public class ReservationDAO {
             pstmt.setInt(6, reservation.getSeat_type_id());
             pstmt.setInt(7, reservation.getFlight_id());
             pstmt.setInt(8, reservation.getUser_id());
+            pstmt.setDate(9, reservation.getPayment_date());
             pstmt.executeUpdate();
         }
     }
@@ -53,7 +54,8 @@ public class ReservationDAO {
                             rs.getInt("reservation_status_id"),
                             rs.getInt("seat_type_id"),
                             rs.getInt("flight_id"),
-                            rs.getInt("user_id"));
+                            rs.getInt("user_id"),
+                            rs.getDate("payment_date"));
                 }
             }
         }
@@ -80,7 +82,8 @@ public class ReservationDAO {
                         rs.getInt("reservation_status_id"),
                         rs.getInt("seat_type_id"),
                         rs.getInt("flight_id"),
-                        rs.getInt("user_id"));
+                        rs.getInt("user_id"),
+                        rs.getDate("payment_date"));
                 reservations.add(reservation);
             }
         }
@@ -92,7 +95,7 @@ public class ReservationDAO {
         ConnectionBdd connectionBdd = new ConnectionBdd();
         String query = "UPDATE reservation SET reservation_date = ?, seats_number = ?, seats_number_children = ?, " +
                 "has_promotion = ?, reservation_status_id = ?, seat_type_id = ?, " +
-                "flight_id = ?, user_id = ? WHERE reservation_id = ?";
+                "flight_id = ?, user_id = ?, payment_date = ? WHERE reservation_id = ?";
 
         try (Connection conn = connectionBdd.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -105,7 +108,8 @@ public class ReservationDAO {
             pstmt.setInt(6, reservation.getSeat_type_id());
             pstmt.setInt(7, reservation.getFlight_id());
             pstmt.setInt(8, reservation.getUser_id());
-            pstmt.setInt(9, reservation.getReservation_id());
+            pstmt.setDate(9, reservation.getPayment_date());
+            pstmt.setInt(10, reservation.getReservation_id());
             pstmt.executeUpdate();
         }
     }
@@ -144,7 +148,8 @@ public class ReservationDAO {
                             rs.getInt("reservation_status_id"),
                             rs.getInt("seat_type_id"),
                             rs.getInt("flight_id"),
-                            rs.getInt("user_id"));
+                            rs.getInt("user_id"),
+                            rs.getDate("payment_date"));
                     reservations.add(reservation);
                 }
             }

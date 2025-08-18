@@ -276,4 +276,97 @@ public class ReservationController {
         }
 
     }
+
+    @Get
+    @Url("/showPaymentPage")
+    @AuthMethod("CLIENT")
+    public Modelview showPaymentPage(@RequestParam("reservationId") int reservationId) {
+        Modelview mv = new Modelview();
+        mv.setUrl("payment.jsp");
+
+        try {
+            User currentUser = (User) mysession.get("user");
+            Reservation reservation = ReservationDAO.findById(reservationId);
+
+            if (reservation == null || reservation.getUser_id() != currentUser.getUser_id()) {
+                mv.add("errorMessage", "Réservation non trouvée ou non autorisée");
+                mv.setUrl("myReservations.jsp");
+                loadReservationsData(mv);
+                return mv;
+            }
+
+            Flight flight = FlightDAO.findById(reservation.getFlight_id());
+            City departureCity = CityDAO.findById(flight.getDeparture_city_id());
+            City arrivalCity = CityDAO.findById(flight.getArrival_city_id());
+            SeatType seatType = SeatTypeDAO.findById(reservation.getSeat_type_id());
+
+            mv.add("reservation", reservation);
+            mv.add("flight", flight);
+            mv.add("departureCity", departureCity);
+            mv.add("arrivalCity", arrivalCity);
+            mv.add("seatType", seatType);
+        } catch (Exception e) {
+            mv.add("errorMessage", "Erreur lors du chargement de la page de paiement: " + e.getMessage());
+            mv.setUrl("myReservations.jsp");
+            loadReservationsData(mv);
+        }
+
+        return mv;
+    }
+
+    @Post
+    @Url("/processPayment")
+    @AuthMethod("CLIENT")
+    public Modelview processPayment(@RequestParam("reservationId") int reservationId,
+            @RequestParam("paymentDate") java.sql.Date paymentDate) {
+        Modelview mv = new Modelview();
+        mv.setUrl("myReservations.jsp");
+
+        try {
+            User currentUser = (User) mysession.get("user");
+            Reservation reservation = ReservationDAO.findById(reservationId);
+
+            if (reservation == null || reservation.getUser_id() != currentUser.getUser_id()) {
+                mv.add("errorMessage", "Réservation non trouvée ou non autorisée");
+                loadReservationsData(mv);
+                return mv;
+            }
+
+            // Vérifier que la réservation n'est pas déjà annulée
+            ReservationStatus status = ReservationStatusDAO.findById(reservation.getReservation_status_id());
+            if (status.getReservation_name().equals("Annulé")) {
+                mv.add("errorMessage", "Impossible de payer une réservation annulée");
+                loadReservationsData(mv);
+                return mv;
+            }
+
+            // Vérifier que la réservation n'est pas déjà payée
+            if (reservation.getPayment_date() != null) {
+                mv.add("errorMessage", "Cette réservation a déjà été payée");
+                loadReservationsData(mv);
+                return mv;
+            }
+
+            // Convertir la date de paiement
+            reservation.setPayment_date(paymentDate);
+
+            // Mettre à jour le statut de la réservation à "Payé" (statut 2)
+            ReservationStatus paidStatus = ReservationStatusDAO.findByName("Payé");
+            if (paidStatus != null) {
+                reservation.setReservation_status_id(paidStatus.getReservation_status_id());
+            }
+
+            // Mettre à jour la réservation
+            ReservationDAO.update(reservation);
+
+            mv.add("message", "Paiement effectué avec succès pour la réservation #" + reservationId);
+
+        } catch (Exception e) {
+            mv.add("errorMessage", "Erreur lors du traitement du paiement: " + e.getMessage());
+        }
+
+        loadReservationsData(mv);
+        return mv;
+    }
+
 }

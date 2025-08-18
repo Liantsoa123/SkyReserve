@@ -92,13 +92,27 @@
                     <div class="info-label">Promotion:</div>
                     <div><%= reservation.isHas_promotion() ? "Oui" : "Non" %></div>
                 </div>
+                
+                <div class="info-group">
+                    <div class="info-label">Date de paiement:</div>
+                    <div><%= reservation.getPayment_date() != null ? dateFormat.format(reservation.getPayment_date()) : "Non payé" %></div>
+                </div>
             </div>
 
             <% if (!status.getReservation_name().equals("Annulé")) { %>
             <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <% if (reservation.getPayment_date() == null) { %>
                 <button onclick="cancelReservation(<%= reservation.getReservation_id() %>)" class="btn-cancel">
                     <i class="fas fa-times"></i> Annuler la réservation
                 </button>
+                <button onclick="payReservation(<%= reservation.getReservation_id() %>)" class="btn-primary">
+                    <i class="fas fa-credit-card"></i> Payer
+                </button>
+                <% } else { %>
+                <span style="color: #22c55e; font-weight: bold;">
+                    <i class="fas fa-check-circle"></i> Réservation payée
+                </span>
+                <% } %>
                 <a href="./downloadReservationPdf?reservationId=<%= reservation.getReservation_id() %>" class="btn-download" target="_blank">
                     <i class="fas fa-file-pdf"></i> Télécharger PDF
                 </a>
@@ -122,6 +136,10 @@
         if (confirm('Êtes-vous sûr de vouloir annuler cette réservation ?')) {
             window.location.href = './cancelReservation?reservationId=' + reservationId;
         }
+    }
+    
+    function payReservation(reservationId) {
+        window.location.href = './showPaymentPage?reservationId=' + reservationId;
     }
 </script>
 

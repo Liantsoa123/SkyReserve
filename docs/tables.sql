@@ -97,6 +97,7 @@ CREATE TABLE reservation
     seat_type_id          INTEGER   NOT NULL,
     flight_id             INTEGER   NOT NULL,
     user_id               INTEGER   NOT NULL,
+    payment_date          DATE,
     PRIMARY KEY (reservation_id),
     FOREIGN KEY (reservation_status_id) REFERENCES reservation_status (reservation_status_id),
     FOREIGN KEY (seat_type_id) REFERENCES seat_type (seat_type_id),

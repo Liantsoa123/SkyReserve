@@ -2,6 +2,7 @@ package model;
 
 import mg.noobframework.annotation.Required;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Reservation {
@@ -20,13 +21,14 @@ public class Reservation {
     private int flight_id;
     @Required
     private int user_id;
+    private Date payment_date;
 
     public Reservation() {
     }
 
     public Reservation(int reservation_id, Timestamp reservation_date, int seats_number, int seats_number_children,
             boolean has_promotion,
-            int reservation_status_id, int seat_type_id, int flight_id, int user_id) {
+            int reservation_status_id, int seat_type_id, int flight_id, int user_id, Date payment_date) {
         this.reservation_id = reservation_id;
         this.reservation_date = reservation_date;
         this.seats_number = seats_number;
@@ -36,6 +38,7 @@ public class Reservation {
         this.seat_type_id = seat_type_id;
         this.flight_id = flight_id;
         this.user_id = user_id;
+        this.payment_date = payment_date;
     }
 
     public int getReservation_id() {
@@ -108,5 +111,13 @@ public class Reservation {
 
     public void setSeats_number_children(int seats_number_children) {
         this.seats_number_children = seats_number_children;
+    }
+
+    public Date getPayment_date() {
+        return payment_date;
+    }
+
+    public void setPayment_date(Date payment_date) {
+        this.payment_date = payment_date;
     }
 }
